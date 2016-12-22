@@ -38,19 +38,16 @@ def DoWarpSignal(signal_csv, intervals_csv, interval_values_csv, output_file):
    intervals = RemoveIntervalOverlap(intervals)
 
    # Warp the signal
-   # WARNING: This code assumes that the constant intervals are mutually exclusive!
    warped_signal = np.copy(signal)
    current_frame = 0
    interval_idx = 0
    #last_value = signal[0]
    while current_frame < len(signal):
-      #if interval_idx == 24:
-      #   pdb.set_trace()
       # Shift the next interval
       if interval_idx < intervals.shape[0]:
          interval_shift = interval_values[interval_idx] - signal_mean[interval_idx]
          warped_signal[intervals[interval_idx,0]:intervals[interval_idx,1]+1] += interval_shift
-         end_frame = intervals[interval_idx,0]
+         end_frame = intervals[interval_idx,0]-1
       else:
          end_frame = len(signal)-1
 
@@ -62,7 +59,7 @@ def DoWarpSignal(signal_csv, intervals_csv, interval_values_csv, output_file):
          else:
             bias = 0
          scale = warped_signal[end_frame]+interval_shift - (warped_signal[current_frame]+bias)
-         warped_signal[current_frame:end_frame] = (warped_signal[current_frame:end_frame] - warped_signal[current_frame])/(warped_signal[end_frame]-warped_signal[current_frame])*scale + warped_signal[current_frame]+bias
+         warped_signal[current_frame:end_frame+1] = (warped_signal[current_frame:end_frame+1] - warped_signal[current_frame])/(warped_signal[end_frame]-warped_signal[current_frame])*scale + warped_signal[current_frame]+bias
          #for frame_idx in range(current_frame, end_frame):
          #   lerp_scalar = float(end_frame-frame_idx)/(end_frame-current_frame)
          #   warped_signal[frame_idx] = warped_signal[frame_idx] + lerp_scalar*bias + (1.0-lerp_scalar)*interval_shift
@@ -77,15 +74,23 @@ def DoWarpSignal(signal_csv, intervals_csv, interval_values_csv, output_file):
    # TEMP hack
    ot_signal = pd.read_csv('/USC/2016_Continuous_Annotations/gt_objective.csv', header=None).as_matrix()
    plt.plot(ot_signal, 'k-')
-   
 
    # Plot the results
    plt.plot(signal, 'b-')
    plt.plot(warped_signal, 'r-')
    plt.xlabel('Time(s)')
    plt.ylabel('Green Saturation')
+
+   # TEMP hack again
+   intervals = pd.read_csv('/USC/2016_Continuous_Annotations/intervals.csv', header=None).as_matrix()
+   intervals_values = pd.read_csv('/USC/2016_Continuous_Annotations/intervals_embedding.csv', header=None).as_matrix()
+   for i in range(intervals.shape[0]):
+      interval = intervals[i]
+      values = 2*[intervals_values[i]]
+      plt.plot(interval, values, 'g-o')
+
    #plt.legend(['Signal', 'Warped Signal'])
-   plt.legend(['Objective', 'Signal', 'Warped Signal'])
+   plt.legend(['Objective', 'Signal', 'Warped Signal', 'Intervals'])
    plt.show()
 
    np.savetxt(output_file, warped_signal, delimiter=',')

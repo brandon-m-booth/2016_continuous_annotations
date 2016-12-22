@@ -1,6 +1,5 @@
 annotation_files_exp = '../trial1_data/annotation_30hz/Blue*label.csv';
 subject_id_exp = '.*annotator(\d)+_label';
-ground_truth_folder = '../trial1_data/ground_truth_30hz/';
 
 % Read in annotation data for each subject, task, session, and label type
 if ~exist('annotations', 'var')

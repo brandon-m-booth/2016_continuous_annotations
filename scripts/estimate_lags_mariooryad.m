@@ -10,9 +10,7 @@ addpath(genpath([cd '/tools/SLMtools']))
 import_annotations;
 
 sample_rate = 30; % Hertz
-max_lag_frames = 10*sample_rate; 
-max_num_lag_windows = 761;
-num_lag_windows_skip = 20;
+max_lag_frames = 10*sample_rate;
 
 feature_sequences = get_features();
 if ~isempty(feature_sequences)
