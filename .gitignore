@@ -1,0 +1,6 @@
+annotation_bags/*
+stitched_bags/*
+bags/
+images/*
+*.csv
+**.RData
