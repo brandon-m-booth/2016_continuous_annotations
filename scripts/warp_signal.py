@@ -83,10 +83,10 @@ def DoWarpSignal(signal_csv, intervals_csv, interval_values_csv, output_file):
 
    # TEMP hack again
    intervals = pd.read_csv('/USC/2016_Continuous_Annotations/intervals.csv', header=None).as_matrix()
-   intervals_values = pd.read_csv('/USC/2016_Continuous_Annotations/intervals_embedding.csv', header=None).as_matrix()
+
    for i in range(intervals.shape[0]):
       interval = intervals[i]
-      values = 2*[intervals_values[i]]
+      values = 2*[interval_values[i]]
       plt.plot(interval, values, 'g-o')
 
    #plt.legend(['Signal', 'Warped Signal'])

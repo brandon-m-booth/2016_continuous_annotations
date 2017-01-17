@@ -19,7 +19,7 @@ def ComputeDistanceMatrix(points):
    return dist_mat
 
 
-def DoOrdinateIntervals(signal_csv, intervals_csv, output_file):
+def DoOrdinateIntervals(signal_csv, intervals_csv, output_file, comparison_retain_percent=1.0):
    if not os.path.isdir(os.path.basename(output_file)):
       os.makedirs(os.path.basename(output_file))
 
@@ -63,7 +63,13 @@ def DoOrdinateIntervals(signal_csv, intervals_csv, output_file):
             else:
                triplets[triplet_idx,:] = [i,k,j]
             triplet_idx += 1
+
    triplets = triplets[np.unique(np.nonzero(triplets)[0]), :] # Remove rows with all zeros
+
+   # Uniformly retain some percentage of the triplets
+   np.random.shuffle(triplets)
+   num_retain_triplets = round(triplets.shape[0]*comparison_retain_percent)
+   triplets = triplets[0:num_retain_triplets, :]
 
    # Perform the embedding
    # Nowak's NMDS triplets method
@@ -77,7 +83,7 @@ def DoOrdinateIntervals(signal_csv, intervals_csv, output_file):
    max_emb = np.max(np.abs(embedding_triplets-mean_emb))
    embedding_triplets = (embedding_triplets-mean_emb)/max_emb + mean_emb # Centered and [-1,1]
    embedding_triplets = embedding_triplets.flatten()
-   if np.correlate(embedding_triplets,signal_mean)[0] >= 0:
+   if np.correlate(embedding_triplets,signal_mean-np.mean(signal_mean))[0] >= 0:
       embedding_triplets = 0.5*embedding_triplets + 0.5
    else:
       embedding_triplets = -0.5*embedding_triplets + 0.5
@@ -100,8 +106,8 @@ def DoOrdinateIntervals(signal_csv, intervals_csv, output_file):
             embedding_triplets[j] = embedding_triplets[i]
    
    # Rank the results
-   embedding_triplets = rankdata(embedding_triplets, method='min').astype(float)
-   embedding_triplets /= np.max(embedding_triplets)
+   #embedding_triplets = rankdata(embedding_triplets, method='min').astype(float)
+   #embedding_triplets /= np.max(embedding_triplets)
    print 'Triplet embedding complete.  Gamma is: %f'%(gamma)
 
 
@@ -144,6 +150,10 @@ if __name__=='__main__':
       signal_csv = sys.argv[1]
       intervals_csv = sys.argv[2]
       output_file = sys.argv[3]
-      DoOrdinateIntervals(signal_csv, intervals_csv, output_file)
+      if len(sys.argv) > 4:
+         comparison_retain_percent = float(sys.argv[4])
+      else:
+         comparison_retain_percent = 1.0
+      DoOrdinateIntervals(signal_csv, intervals_csv, output_file, comparison_retain_percent)
    else:
       print 'Please provide the following arguments:\n1) Path to csv containing signal data\n2) Path to csv containing interval pairs (Nx2 matrix with [left_idx, right_idx] rows)\n3) Output file'
