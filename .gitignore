@@ -4,3 +4,10 @@ bags/
 images/*
 *.csv
 **.RData
+**.aux
+**.bbl
+**.blg
+**.log
+**.synctex.gz
+**.swp
+**.pyc
