@@ -7,3 +7,6 @@ def pretty(plt):
    plt.gca().set_position([box.x0, box.y0, box.width*0.8, box.height])
    plt.tick_params(labelsize=20)
    return
+
+   # Note: To put legend outside of plot:
+   # plt.legend([], loc='upper right', bbox_to_anchor=(1,0))

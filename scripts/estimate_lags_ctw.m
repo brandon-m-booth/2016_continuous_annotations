@@ -17,7 +17,7 @@ parCtw = [];
 parGN = st('nItMa', 2, 'inp', 'linear'); % Gauss-Newton: 2 iterations to update the weight in GTW, 
 parGtw = [];
 
-Xs = smooth_annotations_per_subject{5}.('student').('boredom2').('engagement');
+Xs = label_sequences;
 
 % monotonic basis
 ns = cellDim(Xs, 2);
@@ -60,3 +60,5 @@ shAliCmp(Xs, Xs, {aliDtw, aliDdtw, aliImw, aliCtw, aliGtw}, aliT, parCca, parDtw
 
 %% show basis
 shAliP(bas{1}.P, 'fig', 2);
+
+ctw_lags.annotator_lags{label_sequence_idx} = aliT;

@@ -5,6 +5,7 @@ import pdb
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from pretty_plotter import pretty
 
 def RemoveIntervalOverlap(intervals):
    last_end_idx = -1
@@ -15,7 +16,7 @@ def RemoveIntervalOverlap(intervals):
    return intervals
 
 
-def DoWarpSignal(signal_csv, intervals_csv, interval_values_csv, output_file):
+def DoWarpSignal(signal_csv, intervals_csv, interval_values_csv, objective_csv, output_file):
    if not os.path.isdir(os.path.basename(output_file)):
       os.makedirs(os.path.basename(output_file))
 
@@ -53,16 +54,22 @@ def DoWarpSignal(signal_csv, intervals_csv, interval_values_csv, output_file):
 
       # If not inside the interval just shifted, skew the frames
       # leading up to it
-      if current_frame < end_frame:
+      if current_frame <= end_frame:
          if current_frame > 0:
-            bias = (warped_signal[current_frame-1] - warped_signal[current_frame]) - (signal[current_frame-1] - signal[current_frame])
+            bias = warped_signal[current_frame-1] - signal[current_frame-1]
          else:
             bias = 0
          scale = warped_signal[end_frame]+interval_shift - (warped_signal[current_frame]+bias)
-         warped_signal[current_frame:end_frame+1] = (warped_signal[current_frame:end_frame+1] - warped_signal[current_frame])/(warped_signal[end_frame]-warped_signal[current_frame])*scale + warped_signal[current_frame]+bias
-         #for frame_idx in range(current_frame, end_frame):
-         #   lerp_scalar = float(end_frame-frame_idx)/(end_frame-current_frame)
-         #   warped_signal[frame_idx] = warped_signal[frame_idx] + lerp_scalar*bias + (1.0-lerp_scalar)*interval_shift
+         if end_frame > current_frame:
+            warped_signal[current_frame:end_frame+1] = (warped_signal[current_frame:end_frame+1] - warped_signal[current_frame])/(warped_signal[end_frame]-warped_signal[current_frame])*scale + warped_signal[current_frame]+bias
+         else:
+            warped_signal[current_frame:end_frame+1] = warped_signal[current_frame]+(bias+interval_shift)/2.0
+         #for frame_idx in range(current_frame, end_frame+1):
+         #   if end_frame > current_frame:
+         #      lerp_scalar = float(frame_idx-current_frame)/(end_frame-current_frame)
+         #   else:
+         #      lerp_scalar = 0.5
+         #   warped_signal[frame_idx] = warped_signal[frame_idx] + (1.0-lerp_scalar)*bias + lerp_scalar*interval_shift
 
       if interval_idx < intervals.shape[0]:
          #last_value = warped_signal[intervals[interval_idx,1]]
@@ -71,26 +78,25 @@ def DoWarpSignal(signal_csv, intervals_csv, interval_values_csv, output_file):
       else:
          current_frame = len(signal)
 
-   # TEMP hack
-   ot_signal = pd.read_csv('/USC/2016_Continuous_Annotations/gt_objective.csv', header=None).as_matrix()
+   ot_signal = pd.read_csv(objective_csv, header=None).as_matrix()
    plt.plot(ot_signal, 'k-')
 
    # Plot the results
    plt.plot(signal, 'b-')
    plt.plot(warped_signal, 'r-')
-   plt.xlabel('Time(s)')
-   plt.ylabel('Green Saturation')
+   plt.xlabel('Time(s)', fontsize=24)
+   plt.ylabel('Green Saturation', fontsize=24)
 
-   # TEMP hack again
-   intervals = pd.read_csv('/USC/2016_Continuous_Annotations/intervals.csv', header=None).as_matrix()
-
+   intervals = pd.read_csv(intervals_csv, header=None).as_matrix()
    for i in range(intervals.shape[0]):
       interval = intervals[i]
       values = 2*[interval_values[i]]
       plt.plot(interval, values, 'g-o')
+   
+   pretty(plt)
 
    #plt.legend(['Signal', 'Warped Signal'])
-   plt.legend(['Objective', 'Signal', 'Warped Signal', 'Intervals'])
+   plt.legend(['Objective', 'Average Signal', 'Warped Signal', 'NMDS Intervals'], loc='upper left', bbox_to_anchor=(1,1), frameon=False)
    plt.show()
 
    np.savetxt(output_file, warped_signal, delimiter=',')
@@ -98,11 +104,12 @@ def DoWarpSignal(signal_csv, intervals_csv, interval_values_csv, output_file):
    return warped_signal
 
 if __name__=='__main__':
-   if len(sys.argv) > 4:
+   if len(sys.argv) > 5:
       signal_csv = sys.argv[1]
       intervals_csv = sys.argv[2]
       interval_values_csv = sys.argv[3]
-      output_file = sys.argv[4]
-      DoWarpSignal(signal_csv, intervals_csv, interval_values_csv, output_file)
+      objective_csv = sys.argv[4]
+      output_file = sys.argv[5]
+      DoWarpSignal(signal_csv, intervals_csv, interval_values_csv, objective_csv, output_file)
    else:
       print 'Please provide the following arguments:\n1) Path to csv containing signal data\n2) Path to csv containing interval pairs (Nx2 matrix with [left_idx, right_idx] rows)\n3) Path to csv containing new mean values for each interval\n4) Output file'

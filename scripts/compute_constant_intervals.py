@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 
 def ComputeConstantIntervals(signal_csv, output_constant_csv, do_show_plot=True):
    max_height_threshold = 0.005
-   min_const_frames = 30
+   min_const_frames = 18
     
    signal = pd.read_csv(signal_csv).as_matrix().astype(float)
 
