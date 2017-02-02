@@ -2,24 +2,38 @@
 
 \usepackage[letterpaper, portrait, margin=1in]{geometry}
 \usepackage{graphicx}
+\usepackage[]{todonotes}
+\usepackage[utf8]{inputenc}
+
+% Formatting
+% \setlength{\parindent}{4em}
+\setlength{\parskip}{1em}
 
 \interfootnotelinepenalty=10000
 
-\title{Continuous Annotation Fusion via Rank-based Signal Warping}
-\author{Brandon Booth}
+\title{Continuous-time Annotation Fusion via Rank-based Signal Warping}
+\author{Brandon M. Booth, Karel Mundnich}
 
 \begin{document}
 
 \maketitle
 
 \section{Introduction}
-Annotation fusion has been studied a lot (cite?).  Modern methods for fusing continuous annotations attempt to correct for known artifacts.  Some methods attempt to correct for lag in reaction time to changes in the stimulus.  These methods range from simple shifts in time to dynamic time warping where varying-length time windows are shifted different amounts of time.  These approaches require some representation of the target stimulus and often use several features extracted from the stimulus for time alignment.  The obvious down side to these approaches is that the alignment may fail if changes in the extracted features to not correspond to perceivable changes in the stimulus.
+Many machine learning tasks pertaining to human behavior involve supervised learning from noisy labels that are taken as the ground truth or ``gold standard''. Whether used for classification or regress, having a set of labels that congruently and accurately describe the samples is of paramount importance. In certain hidden mental state problems, such as attention, engagement, or productivity, attempts to have participants momentarily introspect and provide labels interrupts the normal flow of their experience and can lead to noisy labels especially for longer sessions. In these cases, other humans are used as judges for the target construct and often several annotations are collected from a group of expert annotators to establish a ground truth.  Nevertheless, these annotations suffer from a variety of artifacts: reaction lag, personal bias, input noise, human input error, global and local inconsistencies, and adversarial annotation.
+
+In this work, we focus primarily on a continuous and real-time annotation scheme where annotators view a recording of a session (i.e. a video of a participant during a trial) and annotate the target construct in real-time.  Other schemes are possible, including offline and/or discrete annotation, but we believe continuous annotation in real-time is the most natural because it allows annotators to make subtle distinctions in state changes and also because it allows them to account for all of the context leading up to a particular moment.  These affordances lead to further sources for noise and artifacts: preference for local consistency and quality reduction over time due to high vigilance demands.  We aim to address these types of artifacts for continuous and real-time annotations with a correction procedure.
+
+Prior work on continuous annotations focuses on ground truth estimation via handling certain sources of noise or artifacts. Several works tackle the problem of correcting for varying lag in each annotator's reaction time by aligning the signals \cite{DTW2007, CTW2009, PCCA2005, Mariooryad2015} and some methods also simultaneously model annotator biases and attempt to remove them to recover the intended annotation signal \cite{nicolaou2014dynamic}.  Newer research uses an LSTM to try to model and correct for these noise sources \cite{TODO}. Typically, the ground truth is used in a machine learning framework for prediction, and a few methods integrate the annotation aggregation into the machine learning stage and learn a projection function for the set of features that during training maximizes the correlation of the projection with the set of annotations \cite{nicolaou2013correlated, CCA1936}. \todo{Need to distinguish our work from annotation bias compensation works}
+
+Nevertheless, the annotation of continuous-time variables, and specifically, affective or emotional dimensions in multimedia has recently gained traction.  Current methods for fusing continuous annotations attempt to correct for known artifacts \cite{Mariooryad2015}, assuming a shared latent space among annotators \cite{Gupta2016, zhu2015fusing}.  Some methods attempt to correct for lag in reaction time to changes in the stimulus.  These methods range from simple shifts in time to dynamic time warping where varying-length time windows are shifted different amounts of time \cite{Include CCA}.  These approaches require some representation of the target stimulus and often use several features extracted from the stimulus for time alignment.  The obvious downside to these approaches is that the alignment may fail if changes in the extracted features to not correspond to perceivable changes in the stimulus.
 
 Other fusion methods model the different kinds of artifacts introduced by different types of annotators (cite Rahul).
 
 Other fusion methods use event detection to locate points of interest in time and use windows between these boundaries for fusion (maybe? cite?).
 
-The problems for which modern fusion approaches are adapted are primarily hidden state estimation problems such as the engagement level of a student viewing an online lecture.  Because for these types of problems the true value of the hidden state is not known, fusion approaches are typically validated using the resulting fused signal in a machine learning context to show that the model is better able to predict the target.  The problem with this type of validation is that it conflates any potential success of the fusion approach with the success of the learning model making it difficult to tell whether the fusion approach actually leads to a better representation of the object truth signal (e.g. the actual engagement value of a student).  To this end, we conduct our own study where annotators are instructed to provide continuous annotations in real-time where an objective truth signal is known a priori.  We are careful to pick a task where differences in each annotator's prior biases and perception lead to disagreements and artifacts in each annotation signal.
+Several studies have shown that people are better at ranking compared to rating \cite{metallinou2013annotation}.  \todo{Include background research and citations.  Include Yannakaki's paper \cite{yannakakis2015ratings}.}
+
+The problems for which modern fusion approaches are adapted are primarily hidden state estimation problems such as the engagement level of a student viewing an online lecture.  Because for these types of problems the true value of the hidden state is not known, fusion approaches are typically validated using the resulting fused signal in a machine learning context to show that the model is better able to predict the target.  The problem with this type of validation is that it conflates any potential success of the fusion approach with the success of the learning model making it difficult to tell whether the fusion approach actually leads to a better representation of the object truth signal (e.g. the actual engagement value of a student).  To this end, we conduct our own study where annotators are instructed to provide continuous annotations in real-time where an objective truth signal is known \textit{a priori}.  We are careful to pick a task where differences in each annotator's prior biases and perception lead to disagreements and artifacts in each annotation signal.
 
 \section{Experiment and Results}
 Ten annotators were asked to annotate the level of ``green-ness'' in a video.  The video was 4:27 minutes in length, 864x480 resolution, and comprised entirely of solid color frames of green at varying green channel values in RGB color space.  The green value was designed to change both slowly and rapidly at different times and frequencies and also in an unpredictable manner, but did not contain any sudden oscillations.  The slow varying and smooth changes were chosen because they mimic the often slow changes in other hidden mental state problems (engagement, productivity, etc. (cite?)).  Avoiding sudden oscillations means the annotators were not required to make any ``twitch'' reactions during the annotation process which would have added unnecessary artifacts.
@@ -52,7 +66,7 @@ We present a method for annotation fusion for the purposes of establishing a gro
 	\item Annotation average
 	\item Total variation denoising (TV denoising)
 	\item Constant interval extraction
-	\item Triplet
+	\item Triplet Comparisons
 	\item Non-metric multi-dimensional scaling (NMDS)
 	\item Signal warping
 \end{enumerate}
@@ -68,17 +82,31 @@ We use the Matlab TFOCS library to find a new signal $y_t$ that approximates the
 \min_{y_t} \Big[\sum_{t} (x_t - y_t)^2 + \lambda\sum_{t} |y_{t+1} - y_{t}|\Big]
 \]
 
-The parameter $\lambda$ controls the influence of the temporal variation term and encourages signals that look more piecewise-constant.  In general this parameter needs to be tuned to produce a desirable TV signal.  For this study, we casually hand-tuned $\lambda$ and settled on a value of 0.05.  Figure \ref{fig:average_and_objective} shows the averaged annotation signal and the TV denoised signal.
+The parameter $\lambda$ controls the influence of the temporal variation term and encourages signals that look more piecewise-constant.  In general this parameter needs to be tuned to produce a desirable TV signal.  For this study, we casually hand-tuned $\lambda$ and settled on a value of 0.05.  In principle, this parameter can be automatically selected based on other criteria, but we save this endeavor for future work.  Figure \ref{fig:average_and_objective} shows the averaged annotation signal and the TV denoised signal.
 
 \begin{figure}
 	\centering
 	\includegraphics[width=0.49\textwidth]{images/average_and_objective}
-	\includegraphics[width=0.49\textwidth]{images/average_and_objective}
+	\includegraphics[width=0.49\textwidth]{images/tv_and_intervals}
 	\caption{Plot of annotation average and objective truth on the left and TV denoised average signal with extracted constant intervals on the right}
 	\label{fig:average_and_objective}
 \end{figure}
 
-\subsection{NMDS}
+\subsection{Non-metric Multidimensional Scaling}
+Non-metric multidimensional scaling (NMDS), also known as ordinal embedding, is a technique for positioning points in a metric space that satisfy ordinal constraints of the form:
+
+\[
+||x_i - x_j|| < ||x_k - x_l||
+\]
+
+where ${i,j,k,l}$ is a 4-subset of ${1,2,...,|\mathcal{D}|}$ and $\mathcal{D}$ is the set of all samples of $x \in \mathcal{R}^d$.  For our application, we are interested in the case where $i=k$ where we have ordinal comparisons in the form of triplets (i.e. sample $i$ is more similar to sample $j$ than $k$).  One reason to prefer this simplification of the general NMDS problem is that it reduces the cardinality of the set of all possible comparisons given a data set $\mathcal{D}$ and thus the amount of additional information we need.
+
+It is worth mentioning a further reduction is possible if we consider relationships of the form $||x_i|| < ||x_k||$ for unique values of $i$ and $k$.  This setup supposes that it is possible to directly assign a value to each sample $x$ for the purpose of comparing two samples, but this may not always be possible for example in cases where multiple conflicting or ambiguous criteria may exist for valuation (e.g. annotation of behavioral ``weirdness'').  So, for generality of this procedure we choose the triplet comparison approach.
+
+Even after electing to use triplet comparisons, the total number of comparisons that can be made when $|\mathcal{D}|=n$ is $n*{n-1 \choose 2}$ which scales $\mathcal{O}(n^2)$ with the number of data samples.  Fortunately, there is considerable redundancy in the comparison information and not all are necessary to find an approximately optimal embedding.  Concentration bounds have already been derived for this triplet comparison problem and we know that a perfect embedding is possible with $\mathcal{O}(dn\log(n))$ triplet comparisons.
+
+We employ this ordinal embedding technique to reorder the constant intervals and make then more self-consistent and hopefully aligned with the ground truth.  Normally, we would solicit the triplet comparisons from the annotators by asking them to view three video segments corresponding to each unique set of intervals.  One video would serve as a reference and the other two as the tests and the annotator would select which of the two test video segments is most similar to the reference.  Our purpose in this study is to assess the robustness of this approach to missing and conflicting additional comparison information, so we simulate the comparison results.  An analysis is presented in the results section, but Figure \ref{fig:nmds} shows the embedding results for our extracted constant intervals that have been rescaled to the proper $[0,1]$ range.
+
 \subsection{Signal Warping}
 \section{Results}
 Show correlations chart with perfect information
@@ -99,9 +127,9 @@ Finding the right value for the tunable TV denoising constant.  Perhaps choosing
 
 Adjusting the window size for the constant interval extraction and the maximum allowable slope for the nearly constant portions.
 
-
+\section{Acknowledgements}
+This research is supported by... Dr. Narayanan.
 
 \bibliography{references}
-\bibliographystyle{ieeetr}
 
 \end{document}
