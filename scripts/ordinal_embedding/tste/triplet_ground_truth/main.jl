@@ -1,20 +1,27 @@
 include("Triplets.jl")
 
 using DataFrames
-using Plots
 using Triplets
-using PyCall
 using NPZ
+
+# In order to use cy_tste, we need to give the right Python installation
+ENV["Python"] = "~/anaconda/bin/python"
+Pkg.build("PyCall")
+using PyCall
+@pyimport cy_tste
+@pyimport numpy as np
 
 path = "/Users/karel/Documents/Research/BEAM/2016_continuous_annotations/scripts/ordinal_embedding/tste/triplet_ground_truth/gt_objective.csv"
 data = readtable(path)
 data = data[:,1] # retrieve the column with data
-data = data[1:30:end] # slice the data to have a 1 sample/second
+data = data[1:30:end] # slice the data to have 1 sample/second
 
 # N = 50
 # data = data[N+1:2N]
-plot(data)
+# plot(data)
 
 @time trplts = Triplets.generate_triplets(data)
 
-npzwrite("triplets.npy", trplts)
+#npzwrite("triplets.npy", trplts)
+
+X = cy_tste.tste(PyReverseDims(trplts), 1, 0, 2)

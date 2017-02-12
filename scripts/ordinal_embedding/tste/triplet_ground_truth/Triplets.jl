@@ -2,7 +2,7 @@ module Triplets
 
 	function generate_triplets(data)
 
-		triplets = zeros(10000000,3)
+		triplets = zeros(Int64,10000000,3)
 		counter = 0
 
 		for i = 1:length(data)
@@ -19,7 +19,7 @@ module Triplets
 		        end
 		    end
 		end
-	 return triplets[1:counter,:]
+	        return triplets[1:counter,:]
 	end
 
 end # module
