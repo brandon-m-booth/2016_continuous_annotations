@@ -18,12 +18,15 @@ parGN = st('nItMa', 2, 'inp', 'linear'); % Gauss-Newton: 2 iterations to update 
 parGtw = [];
 
 Xs = label_sequences;
+Xs = Xs(1:2);
 
 % monotonic basis
 ns = cellDim(Xs, 2);
 len = length(Xs{1}); % Latent sequence length
 bas = baTems(len, ns, 'pol', [3 0.4], 'tan', [3 0.6 1]); % 2 polynomial and 3 tangent functions
-aliT = [];
+if ~exist('aliT', 'var')
+    aliT = [];
+end
 
 % utw (initialization)
 if ~exist('aliUtw', 'var')
@@ -56,9 +59,9 @@ if ~exist('aliGtw', 'var')
 end
 
 %% show alignment result
-shAliCmp(Xs, Xs, {aliDtw, aliDdtw, aliImw, aliCtw, aliGtw}, aliT, parCca, parDtw, parGN, 1);
+%shAliCmp(Xs, Xs, {aliDtw, aliDdtw, aliImw, aliCtw, aliGtw}, aliT, parCca, parDtw, parGN, 1);
 
 %% show basis
-shAliP(bas{1}.P, 'fig', 2);
+%shAliP(bas{1}.P, 'fig', 2);
 
-ctw_lags.annotator_lags{label_sequence_idx} = aliT;
+ctw_lags.annotator_lags = aliT;
