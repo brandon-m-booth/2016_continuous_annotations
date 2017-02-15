@@ -24,4 +24,11 @@ data = data[1:30:end] # slice the data to have 1 sample/second
 
 #npzwrite("triplets.npy", trplts)
 
-X = cy_tste.tste(PyReverseDims(trplts), 1, 0, 2)
+fraction = 0.01
+total = size(trplts)[2]
+amount = convert(Int64, floor(fraction*total))
+
+subset_triplets = trplts[:,rand(1:size(trplts)[2], amount)]
+@time X = cy_tste.tste(PyReverseDims(subset_triplets), 1, 0, 2)
+
+plot(X)
