@@ -52,21 +52,27 @@ def PlotWarpCorrelations(input_path):
          plot_points[correct_percentage] = np.array([warp_percentage, p])
 
    # Plot the results
+   x_break = 0.20001
    legend_label = []
    for correct_percentage in sorted(plot_points.keys(), reverse=True):
       points = np.sort(plot_points[correct_percentage], axis=0)
-      plt.plot(points[:,0], points[:,1])
+      break_idx = (points[:,0] < x_break).tolist().index(False)
+      plt.plot(points[0:break_idx,0], points[0:break_idx:,1])
       legend_label.append('%d%% Correct'%(correct_percentage*100.0))
 
    # Plot a dotted line at the baseline correlation value
-   plt.plot([0.0,1.0],[0.906, 0.906],'k--')
-   legend_label.append('EvalDep Average Correlation')
+   plt.plot([0.0,x_break],[0.906, 0.906],'k--')
+   legend_label.append('Fused Annotation\nCorrelation')
+
+   ax = plt.gca()
+   ax.set_autoscale_on(False)
+   ax.axis([0,x_break, 0,1])
 
    plt.xlabel('Fraction of Complete Triplet Comparisons', fontsize=24)
    plt.ylabel('Pearson Correlation', fontsize=24)
    pretty(plt)
 
-   plt.legend(legend_label, loc='upper left', bbox_to_anchor=(1,1), frameon=False)
+   plt.legend(legend_label, loc='upper left', bbox_to_anchor=(1,1), frameon=False, prop={'size':24})
    plt.show()
 
 if __name__=='__main__':
