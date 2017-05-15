@@ -11,3 +11,4 @@ images/*
 **.synctex.gz
 **.swp
 **.pyc
+**.mat
