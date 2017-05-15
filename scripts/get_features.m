@@ -1,5 +1,6 @@
 function feature_sequences = get_features()
-    features_file_exp = '../trial1_data/features/*.csv';
+    [pathstr, filename, ext] = fileparts(mfilename('fullpath'));
+    features_file_exp = strcat(pathstr,'/../trial2_data/features/*.csv');
     [features_file_path,name,ext] = fileparts(features_file_exp);
     feature_sequence_mat = [];
     features_files = dir(features_file_exp);

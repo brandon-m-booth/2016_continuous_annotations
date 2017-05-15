@@ -1,4 +1,4 @@
-annotation_files_exp = '../trial1_data/annotation_30hz/Blue*label.csv';
+annotation_files_exp = '../trial2_data/annotation_30hz/Bluer*label.csv';
 subject_id_exp = '.*annotator(\d)+_label';
 
 % Read in annotation data for each subject, task, session, and label type
