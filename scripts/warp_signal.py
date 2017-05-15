@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 from pretty_plotter import pretty
 
-do_show_plot = False
+do_show_plot = True
 
 def RemoveIntervalOverlap(intervals):
    last_end_idx = -1
@@ -96,25 +96,30 @@ def DoWarpSignal(signal_csv, intervals_csv, interval_values_glob, objective_csv,
 
       sampling_rate = 30.0
       ot_signal = pd.read_csv(objective_csv, header=None).as_matrix()
-      plt.plot(np.array(range(0,len(ot_signal)))/sampling_rate, ot_signal, 'k-')
+      plt.plot(np.array(range(0,len(ot_signal)))/sampling_rate, ot_signal, 'm-', linewidth=4)
 
       # Plot the results
       if do_show_plot:
-         plt.plot(np.array(range(0,len(signal)))/sampling_rate, signal, 'b-')
-         plt.plot(np.array(range(0,len(warped_signal)))/sampling_rate, warped_signal, 'r-')
+         plt.plot(np.array(range(0,len(signal)))/sampling_rate, signal, 'c--')
          plt.xlabel('Time(s)', fontsize=24)
-         plt.ylabel('Green Saturation', fontsize=24)
+         plt.ylabel('Green Value', fontsize=24)
 
          intervals = pd.read_csv(intervals_csv, header=None).as_matrix()
          for i in range(intervals.shape[0]):
             interval = intervals[i]/sampling_rate
             values = 2*[interval_values[i]]
-            plt.plot(interval, values, 'g-o')
+            if i > 0:
+               plt.plot(interval, values, 'g-o', label='_nolegend_')
+            else:
+               plt.plot(interval, values, 'g-o')
+
+         plt.plot(np.array(range(0,len(warped_signal)))/sampling_rate, warped_signal, 'r-')
          
          pretty(plt)
 
-         #plt.legend(['Signal', 'Warped Signal'])
-         plt.legend(['Objective', 'Average Signal', 'Warped Signal', 'Embedded Intervals'], loc='upper left', bbox_to_anchor=(1,1), frameon=False)
+         plt.axis([0,300,0,1])
+         legend_list = ['Objective Truth', 'Average Signal', 'Embedded Intervals', 'Warped Signal']
+         plt.legend(legend_list, loc='upper left', bbox_to_anchor=(1,1), frameon=False, prop={'size':24})
          plt.show()
 
       if '*' in output_file:
@@ -133,4 +138,4 @@ if __name__=='__main__':
       output_file = sys.argv[5]
       DoWarpSignal(signal_csv, intervals_csv, interval_values_csv, objective_csv, output_file)
    else:
-      print 'Please provide the following arguments:\n1) Path to csv containing signal data\n2) Path to csv containing interval pairs (Nx2 matrix with [left_idx, right_idx] rows)\n3) Path to csv containing new mean values for each interval\n4)Path to csv containing the objective truth signal\n5) Output file'
+      print 'Please provide the following arguments:\n1) Path to csv containing signal data\n2) Path to csv containing interval pairs (Nx2 matrix with [left_idx, right_idx] rows)\n3) Path to csv containing new mean values for each interval\n4) Path to csv containing the objective truth signal\n5) Output file'
