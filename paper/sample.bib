@@ -19,18 +19,12 @@
 	Abstract = {An appealing scheme to characterize expressive behaviors is the use of emotional dimensions such as activation (calm versus active) and valence (negative versus positive). These descriptors offer many advantages to describe the wide spectrum of emotions. Due to the continuous nature of fast-changing expressive vocal and gestural behaviors, it is desirable to continuously track these emotional traces, capturing subtle and localized events (e.g., with FEELTRACE). However, time-continuous annotations introduce challenges that affect the reliability of the labels. In particular, an important issue is the evaluators' reaction lag caused by observing, appraising, and responding to the expressive behaviors. An empirical analysis demonstrates that this delay varies from 1 to 6 seconds, depending on the annotator, expressive dimension, and actual behaviors. Our experiments show accuracy improvements even with fixed delays (1-3 seconds). This paper proposes to compensate for this reaction lag by finding the time-shift that maximizes the mutual information between the expressive behaviors and the time-continuous annotations. The approach is implemented by making different assumptions about the evaluators' reaction lag. The benefits of compensating for the delay is demonstrated with emotion classification experiments. On average, the classifiers trained with facial and speech features show more than 7 percent relative improvements over baseline classifiers trained and tested without shifting the time-continuous annotations.},
 	Author = {Mariooryad, Soroosh and Busso, Carlos},
 	Date-Modified = {2017-01-19 00:01:40 +0000},
-	Doi = {10.1109/TAFFC.2014.2334294},
-	Isbn = {1949-3045},
-	Issn = {1949-3045},
 	Journal = {IEEE Transactions on Affective Computing},
 	Number = {2},
 	Pages = {97--108},
 	Title = {{Correcting Time-Continuous Emotional Labels by Modeling the Reaction Lag of Evaluators}},
-	Url = {http://ieeexplore.ieee.org/lpdocs/epic03/wrapper.htm?arnumber=6847125},
 	Volume = {6},
-	Year = {2015},
-	Bdsk-Url-1 = {http://ieeexplore.ieee.org/lpdocs/epic03/wrapper.htm?arnumber=6847125},
-	Bdsk-Url-2 = {http://dx.doi.org/10.1109/TAFFC.2014.2334294}}
+	Year = {2015}}
 
 @article{Lakshminarayanan2013,
 	Abstract = {A popular approach for large scale data annotation tasks is crowdsourcing, wherein each data point is labeled by multiple noisy annotators. We consider the problem of inferring ground truth from noisy ordinal labels obtained from multiple annotators of varying and unknown expertise levels. Annotation models for ordinal data have been proposed mostly as extensions of their binary/categorical counterparts and have received little attention in the crowdsourcing literature. We propose a new model for crowdsourced ordinal data that accounts for instance difficulty as well as annotator expertise, and derive a variational Bayesian inference algorithm for parameter estimation. We analyze the ordinal extensions of several state-of-the-art annotator models for binary/categorical labels and evaluate the performance of all the models on two real world datasets containing ordinal query-URL relevance scores, collected through Amazon's Mechanical Turk. Our results indicate that the proposed model performs better or as well as existing state-of-the-art methods and is more resistant to `spammy' annotators (i.e., annotators who assign labels randomly without actually looking at the instance) than popular baselines such as mean, median, and majority vote which do not account for annotator expertise.},
@@ -46,15 +40,16 @@
 	Year = {2013},
 	Bdsk-Url-1 = {http://arxiv.org/abs/1305.0015}}
 
-@article{Gupta2016,
-	Author = {Gupta, Rahul and Audhkhasi, Kartik and Jacokes, Zach},
-	Date-Modified = {2017-01-19 00:00:38 +0000},
-	Doi = {10.1109/TAFFC.2016.2592918},
-	Issn = {1949-3045},
-	Title = {{Modeling multiple time series annotations based on ground truth inference and distortion}},
-	Volume = {Accepted},
-	Year = {2016},
-	Bdsk-Url-1 = {http://dx.doi.org/10.1109/TAFFC.2016.2592918}}
+@article{Gupta2016, 
+    author={R. Gupta and K. Audhkhasi and Z. Jacokes and A. Rozga and S. Narayanan}, 
+    journal={IEEE Transactions on Affective Computing}, 
+    title={Modeling multiple time series annotations based on ground truth inference and distortion}, 
+    year={2016}, 
+    volume={PP}, 
+    number={99}, 
+    pages={1--1}, 
+    keywords={Analytical models;Computational modeling;Data models;Delays;Distortion;Time series analysis;Behavioral signal processing;Expectation Maximization (EM) algorithm;Multiple annotators;Time series modeling}
+}
 	
 @article{zhu2015fusing,
   title={Fusing continuous-valued medical labels using a Bayesian model},
@@ -81,7 +76,7 @@
 @inproceedings{metallinou2013annotation,
   title={Annotation and processing of continuous emotional attributes: Challenges and opportunities},
   author={Metallinou, Angeliki and Narayanan, Shrikanth},
-  booktitle={Automatic Face and Gesture Recognition (FG), 2013 10th IEEE International Conference and Workshops on},
+  booktitle={10th IEEE International Conference and Workshops on Automatic Face and Gesture Recognition},
   pages={1--8},
   year={2013},
   organization={IEEE}
@@ -96,15 +91,12 @@
   organization={ACM}
 }
 
-@incollection{CTW2009,
-title = {Canonical Time Warping for Alignment of Human Behavior},
-author = {Feng Zhou and Fernando Torre},
-booktitle = {Advances in Neural Information Processing Systems 22},
-editor = {Y. Bengio and D. Schuurmans and J. D. Lafferty and C. K. I. Williams and A. Culotta},
-pages = {2286--2294},
-year = {2009},
-publisher = {Curran Associates, Inc.},
-url = {http://papers.nips.cc/paper/3728-canonical-time-warping-for-alignment-of-human-behavior.pdf}
+@inproceedings{CTW2009,
+  title={Canonical time warping for alignment of human behavior},
+  author={Zhou, Feng and Torre, Fernando},
+  booktitle={Advances in neural information processing systems},
+  pages={2286--2294},
+  year={2009}
 }
 
 @article{CCA1936,
@@ -142,4 +134,166 @@ url = {http://papers.nips.cc/paper/3728-canonical-time-warping-for-alignment-of-
   pages={13},
   year={2015},
   publisher={Frontiers}
+}
+
+@article{Ringeval2015,
+	Author = {Fabien Ringeval and Florian Eyben and Eleni Kroupi and Anil Yuce and Jean-Philippe Thiran and Touradj Ebrahimi and Denis Lalanne and Bj{\"o}rn Schuller},
+	Date-Added = {2017-01-24 22:10:56 +0000},
+	Date-Modified = {2017-01-24 22:12:56 +0000},
+	Journal = {Pattern Recognition Letters},
+	Pages = {22--30},
+	Title = {{Prediction of ashynchronous dimensional emotion ratings from audiovisual and physiological data}},
+	Volume = {66},
+	Year = {2015}
+}
+
+@inproceedings{Yannakakis2011,
+    author={Yannakakis, Georgios N. and Hallam, John},
+    title={Ranking vs. Preference: A Comparative Study of Self-reporting},
+    booktitle={Affective Computing and Intelligent Interaction: 4th International Conference},
+    year={2011},
+    publisher={Springer},
+    pages={437--446}
+}
+
+@inproceedings{jain2016finite,
+  title={Finite Sample Prediction and Recovery Bounds for Ordinal Embedding},
+  author={Jain, Lalit and Jamieson, Kevin G and Nowak, Rob},
+  booktitle={Advances In Neural Information Processing Systems},
+  pages={2703--2711},
+  year={2016}
+}
+
+@inproceedings{agarwal2007generalized,
+  title={Generalized Non-metric Multidimensional Scaling},
+  author={Agarwal, Sameer and Wills, Josh and Cayton, Lawrence and Lanckriet, Gert RG and Kriegman, David J and Belongie, Serge J},
+  booktitle={Proceedings of the Artificial Intelligence and Statistics Conference},
+  pages={11--18},
+  year={2007}
+}
+
+@inproceedings{tamuz2011adaptively, 
+    Publisher = {ACM}, 
+    Title = {Adaptively Learning the Crowd Kernel }, 
+    Booktitle = {Proceedings of the 28th International Conference on Machine Learning (ICML-11)}, 
+    Author = {Omer Tamuz and Ce Liu and Ohad Shamir and Adam Kalai and Serge J. Belongie}, 
+    Year = {2011}, 
+    Pages = {673--680} 
+   }
+
+@inproceedings{van2012stochastic,
+  title={Stochastic triplet embedding},
+  author={Van Der Maaten, Laurens and Weinberger, Kilian},
+  booktitle={IEEE International Workshop on Machine Learning for Signal Processing (MLSP)},
+  pages={1--6},
+  year={2012},
+  organization={IEEE}
+}
+
+@inproceedings{amid2015multiview,
+  title={Multiview Triplet Embedding: Learning Attributes in Multiple Maps},
+  author={Amid, Ehsan and Ukkonen, Antti},
+  booktitle={Proceedings of the International Conference on Machine Learning},
+  pages={1472--1480},
+  year={2015}
+}
+
+@inproceedings{valstar2016avec,
+  title={AVEC 2016: Depression, Mood, and Emotion Recognition Workshop and Challenge},
+  author={Valstar, Michel and Gratch, Jonathan and Schuller, Bj{\"o}rn and Ringeval, Fabien and Lalanne, Dennis and Torres Torres, Mercedes and Scherer, Stefan and Stratou, Giota and Cowie, Roddy and Pantic, Maja},
+  booktitle={Proceedings of the 6th International Workshop on Audio/Visual Emotion Challenge},
+  pages={3--10},
+  year={2016},
+  organization={ACM}
+}
+
+@article{rudin1992nonlinear,
+  title={Nonlinear total variation based noise removal algorithms},
+  author={Rudin, Leonid I and Osher, Stanley and Fatemi, Emad},
+  journal={Physica D: Nonlinear Phenomena},
+  volume={60},
+  number={1-4},
+  pages={259--268},
+  year={1992},
+  publisher={Elsevier}
+}
+
+@article{becker2011templates,
+  title={Templates for convex cone problems with applications to sparse signal recovery},
+  author={Becker, Stephen R and Cand{\`e}s, Emmanuel J and Grant, Michael C},
+  journal={Mathematical programming computation},
+  volume={3},
+  number={3},
+  pages={165},
+  year={2011},
+  publisher={Springer}
+}
+
+@article{mckeown2012semaine,
+  title={The semaine database: Annotated multimodal records of emotionally colored conversations between a person and a limited agent},
+  author={McKeown, Gary and Valstar, Michel and Cowie, Roddy and Pantic, Maja and Schroder, Marc},
+  journal={IEEE Transactions on Affective Computing},
+  volume={3},
+  number={1},
+  pages={5--17},
+  year={2012},
+  publisher={IEEE}
+}
+
+@inproceedings{ringeval2013introducing,
+  title={Introducing the RECOLA multimodal corpus of remote collaborative and affective interactions},
+  author={Ringeval, Fabien and Sonderegger, Andreas and Sauer, Juergen and Lalanne, Denis},
+  booktitle={10th IEEE International Conference and Workshops on Automatic Face and Gesture Recognition},
+  pages={1--8},
+  year={2013},
+  organization={IEEE}
+}
+
+@article{Zhou2016,
+  title={Generalized canonical time warping},
+  author={Zhou, Feng and De la Torre, Fernando},
+  journal={IEEE transactions on pattern analysis and machine intelligence},
+  volume={38},
+  number={2},
+  pages={279--294},
+  year={2016},
+  publisher={IEEE}
+}
+
+@inproceedings{trigeorgis2016deep,
+  title={Deep Canonical Time Warping},
+  author={Trigeorgis, George and Nicolaou, Mihalis A and Zafeiriou, Stefanos and Schuller, Bjorn W},
+  booktitle={Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition},
+  pages={5110--5118},
+  year={2016}
+}
+
+@inproceedings{andrew2013deep,
+  title={Deep canonical correlation analysis},
+  author={Andrew, Galen and Arora, Raman and Bilmes, Jeff A and Livescu, Karen},
+  booktitle={Proceedings of the International Conference on Machine Learning},
+  pages={1247--1255},
+  year={2013}
+}
+
+@article{metallinou2013tracking,
+  title={Tracking continuous emotional trends of participants during affective dyadic interactions using body language and speech information},
+  author={Metallinou, Angeliki and Katsamanis, Athanasios and Narayanan, Shrikanth},
+  journal={Image and Vision Computing},
+  volume={31},
+  number={2},
+  pages={137--152},
+  year={2013},
+  publisher={Elsevier}
+}
+
+@article{audhkhasi2013globally,
+  title={A globally-variant locally-constant model for fusion of labels from multiple diverse experts without using reference labels},
+  author={Audhkhasi, Kartik and Narayanan, Shrikanth},
+  journal={IEEE transactions on pattern analysis and machine intelligence},
+  volume={35},
+  number={4},
+  pages={769--783},
+  year={2013},
+  publisher={IEEE}
 }
