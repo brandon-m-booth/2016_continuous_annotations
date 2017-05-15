@@ -15,9 +15,9 @@ function ordinateintervals(comparison_retain_percentages, correctness_rates)
             comparison_retain_percentage = comparison_retain_percentages(idx);
 
             %% Load data
-            signal = csvread('/USC/2016_Continuous_Annotations/gt_data/time_shifted/gt_mariooryad_evaldep.csv');
-            obj_truth = csvread('/USC/2016_Continuous_Annotations/gt_data/time_shifted/gt_objective.csv');
-            intervals = csvread('/USC/2016_Continuous_Annotations/gt_data/time_shifted/intervals.csv');
+            signal = csvread('/USC/2016_Continuous_Annotations/gt_data/trial2/time_shifted/gt_rahul_10hz.csv');
+            obj_truth = csvread('/USC/2016_Continuous_Annotations/gt_data/trial2/time_shifted/gt_objective_10hz.csv');
+            intervals = csvread('/USC/2016_Continuous_Annotations/gt_data/trial2/time_shifted/intervals_rahul.csv');
 
             %% For each interval, compute the average obj truth value
             obj_mean = zeros(size(intervals,1),1);
@@ -130,7 +130,7 @@ function ordinateintervals(comparison_retain_percentages, correctness_rates)
 
             folder_name = sprintf('%sp_correct', correctness_rate_str);
             file_name = sprintf('interval_values_%s_%s.csv', comparison_retain_percentage_str, correctness_rate_str);
-            output_folder = strcat('/USC/2016_Continuous_Annotations/gt_data/time_shifted/',folder_name);
+            output_folder = strcat('/USC/2016_Continuous_Annotations/gt_data/trial2/time_shifted/rahul_percent_correct/',folder_name);
             if ~exist(output_folder, 'dir')
                 mkdir(output_folder);
             end

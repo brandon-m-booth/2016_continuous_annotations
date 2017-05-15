@@ -59,6 +59,7 @@ def DoOrdinateIntervals(signal_csv, intervals_csv, output_file, comparison_retai
                #triplet_idx += 1
                #triplets[triplet_idx,:] = [i,k,j]
                #triplet_idx += 1
+               pass
             elif diff_ik < diff_ij:
                triplets[triplet_idx,:] = [i,j,k]
                triplet_idx += 1
