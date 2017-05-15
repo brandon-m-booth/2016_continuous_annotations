@@ -8,9 +8,10 @@ import math
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from pretty_plotter import pretty
 
 def ComputeConstantIntervals(signal_csv, output_constant_csv, do_show_plot=True):
-   max_height_threshold = 0.005
+   max_height_threshold = 0.003
    min_const_frames = 18
     
    signal = pd.read_csv(signal_csv).as_matrix().astype(float)
@@ -100,9 +101,16 @@ def ComputeConstantIntervals(signal_csv, output_constant_csv, do_show_plot=True)
       
    # Plot the results
    if do_show_plot:
-      plt.plot(signal)
+      plt.plot(np.array(range(len(signal)))/30.0, signal, color='black', linestyle='-.')
       for interval in constant_intervals:
-         plt.plot(interval, signal[interval], 'r-o')
+         plt.plot(np.array(interval)/30.0, signal[interval], 'g-o')
+
+      plt.xlabel('Time(s)', fontsize=24)
+      plt.ylabel('Green Value', fontsize=24)
+      plt.gca().set_xlim([0,len(signal)/30])
+      pretty(plt)
+      plt.legend(['TV Denoised', 'Constant Intervals'], loc='upper left', bbox_to_anchor=(1,1), frameon=False, prop={'size':24})
+      plt.savefig('./test.svg', transparent=True)
       plt.show()
 
    with open(output_constant_csv, 'wb') as outfile:
