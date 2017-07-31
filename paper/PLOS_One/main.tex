@@ -1,10 +1,88 @@
-\documentclass[times,twocolumn,final,authoryear]{elsarticle}
+%
+% -- IMPORTANT NOTE
+%
+% This template contains comments intended 
+% to minimize problems and delays during our production 
+% process. Please follow the template instructions
+% whenever possible.
+%
+% % % % % % % % % % % % % % % % % % % % % % % 
+%
+% Once your paper is accepted for publication, 
+% PLEASE REMOVE ALL TRACKED CHANGES in this file 
+% and leave only the final text of your manuscript. 
+% PLOS recommends the use of latexdiff to track changes during review, as this will help to maintain a clean tex file.
+% Visit https://www.ctan.org/pkg/latexdiff?lang=en for info or contact us at latex@plos.org.
+%
+%absolu
+% There are no restrictions on package use within the LaTeX files except that 
+% no packages listed in the template may be deleted.
+%
+% Please do not include colors or graphics in the text.
+%
+% The manuscript LaTeX source should be contained within a single file (do not use \input, \externaldocument, or similar commands).
+%
+% % % % % % % % % % % % % % % % % % % % % % %
+%
+% -- FIGURES AND TABLES
+%
+% Please include tables/figure captions directly after the paragraph where they are first cited in the text.
+%
+% DO NOT INCLUDE GRAPHICS IN YOUR MANUSCRIPT
+% - Figures should be uploaded separately from your manuscript file. 
+% - Figures generated using LaTeX should be extracted and removed from the PDF before submission. 
+% - Figures containing multiple panels/subfigures must be combined into one image file before submission.
+% For figure citations, please use "Fig" instead of "Figure".
+% See http://journals.plos.org/plosone/s/figures for PLOS figure guidelines.
+%
+% Tables should be cell-based and may not contain:
+% - spacing/line breaks within cells to alter layout or alignment
+% - do not nest tabular environments (no tabular environments within tabular environments)
+% - no graphics or colored text (cell background color/shading OK)
+% See http://journals.plos.org/plosone/s/tables for table guidelines.
+%
+% For tables that exceed the width of the text column, use the adjustwidth environment as illustrated in the example table in text below.
+%
+% % % % % % % % % % % % % % % % % % % % % % % %
+%
+% -- EQUATIONS, MATH SYMBOLS, SUBSCRIPTS, AND SUPERSCRIPTS
+%
+% IMPORTANT
+% Below are a few tips to help format your equations and other special characters according to our specifications. For more tips to help reduce the possibility of formatting errors during conversion, please see our LaTeX guidelines at http://journals.plos.org/plosone/s/latex
+%
+% For inline equations, please be sure to include all portions of an equation in the math environment.  For example, x$^2$ is incorrect; this should be formatted as $x^2$ (or $\mathrm{x}^2$ if the romanized font is desired).
+%
+% Do not include text that is not math in the math environment. For example, CO2 should be written as CO\textsubscript{2} instead of CO$_2$.
+%
+% Please add line breaks to long display equations when possible in order to fit size of the column. 
+%
+% For inline equations, please do not include punctuation (commas, etc) within the math environment unless this is part of the equation.
+%
+% When adding superscript or subscripts outside of brackets/braces, please group using {}.  For example, change "[U(D,E,\gamma)]^2" to "{[U(D,E,\gamma)]}^2". 
+%
+% Do not use \cal for caligraphic font.  Instead, use \mathcal{}
+%
+% % % % % % % % % % % % % % % % % % % % % % % % 
+%
+% Please contact latex@plos.org with any questions.
+%
+% % % % % % % % % % % % % % % % % % % % % % % %
 
-\usepackage{prletters}
+\documentclass[10pt,letterpaper]{article}
+\usepackage[top=0.85in,left=2.75in,footskip=0.75in]{geometry}
+
+%\usepackage[printwatermark]{xwatermark}
 \usepackage{framed,multirow}
-%\usepackage{graphicx}
+\usepackage{graphicx}
 \usepackage[utf8]{inputenc}
-\usepackage{amsmath}
+\usepackage{amsmath, amssymb}
+\usepackage{changepage}
+\usepackage{textcomp,marvosym}
+\usepackage{cite}
+\usepackage{nameref,hyperref}
+\usepackage[right]{lineno}
+\usepackage{microtype}
+\DisableLigatures[f]{encoding = *, family = * }
 %\usepackage[table]{xcolor}
 %\usepackage{tabularx}
 %\usepackage[backend=bibtex,style=model2-names]{biblatex}
@@ -12,6 +90,31 @@
 \usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
 \usepackage{multirow}
 \usepackage{makecell}
+\usepackage[export]{adjustbox}
+
+% Matplotlib2TikZ
+\usepackage{pgfplots}
+
+% array package and thick rules for tables
+\usepackage{array}
+
+% create "+" rule type for thick vertical lines
+\newcolumntype{+}{!{\vrule width 2pt}}
+
+% create \thickcline for thick horizontal lines of variable length
+\newlength\savedwidth
+\newcommand\thickcline[1]{%
+  \noalign{\global\savedwidth\arrayrulewidth\global\arrayrulewidth 2pt}%
+  \cline{#1}%
+  \noalign{\vskip\arrayrulewidth}%
+  \noalign{\global\arrayrulewidth\savedwidth}%
+}
+
+% \thickhline command for thick horizontal lines that span the table
+\newcommand\thickhline{\noalign{\global\savedwidth\arrayrulewidth\global\arrayrulewidth 2pt}%
+\hline
+\noalign{\global\arrayrulewidth\savedwidth}}
+
 % \newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
 % \newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
 % \newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
@@ -26,7 +129,30 @@
 %\newcolumntype{K}[1]{>{\centering\arraybackslash}p{#1}}
 %\newcolumntype{C}{>{\centering\arraybackslash}X}
 
-\linespread{0.98}
+% Remove comment for double spacing
+\usepackage{setspace} 
+\doublespacing
+
+% Text layout
+\raggedright
+\setlength{\parindent}{0.5cm}
+\textwidth 5.25in 
+\textheight 8.75in
+\def \imagewidth {7.5in}
+
+% Bold the 'Figure #' in the caption and separate it from the title/caption with a period
+% Captions will be left justified
+\usepackage[aboveskip=1pt,labelfont=bf,labelsep=period,justification=raggedright,singlelinecheck=off]{caption}
+\renewcommand{\figurename}{Fig}
+
+% Remove brackets from numbering in List of References
+\makeatletter
+\renewcommand{\@biblabel}[1]{\quad#1.}
+\makeatother
+
+% Leave date blank
+\date{}
+
 \hyphenation{ra-ting}
 
 \captionsetup[figure]{labelfont=bf,textfont=bf,labelsep=period}
@@ -34,109 +160,103 @@
 
 \interfootnotelinepenalty=10000
 
-\journal{Pattern Recognition Letters}
+% Header and Footer with logo
+\usepackage{lastpage,fancyhdr,graphicx}
+\usepackage{epstopdf}
+\pagestyle{myheadings}
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{27.023pt}
+\lhead{\includegraphics[width=2.0in]{PLOS-submission.eps}}
+\rfoot{\thepage/\pageref{LastPage}}
+\renewcommand{\footrule}{\hrule height 2pt \vspace{2mm}}
+\fancyheadoffset[L]{2.25in}
+\fancyfootoffset[L]{2.25in}
+\lfoot{\sf PLOS}
+
+%\newwatermark[allpages,color=red!20,angle=45,scale=3,xpos=0,ypos=0]{DRAFT}
 
 \begin{document}
+\vspace*{0.2in}
 
-\thispagestyle{empty}
-
-\ifpreprint
-  \setcounter{page}{1}
-\else
-  \setcounter{page}{1}
-\fi
-
-\begin{frontmatter}
-
-\title{Continuous real-time annotation fusion correction via rank-based spatial warping}
-
-\author[1]{Brandon M. \snm{Booth}\corref{cor1}} 
-\cortext[cor1]{Corresponding author: 
-  Tel.: +1-720-470-4284}
-\ead{brandon.m.booth@gmail.com}
-\author[1]{Karel \snm{Mundnich}}
-\author[1]{Shrikanth S. \snm{Narayanan}}
-
-\address[1]{Signal Analysis and Interpretation Lab, University of Southern California, 3740 McClinktock Avenue, EEB 400, Los Angeles, CA 90089, USA}
-
-\received{1 May 2017}
-\finalform{10 May 2017}
-\accepted{13 May 2017}
-\availableonline{15 May 2017}
-\communicated{S. Sarkar}
+% Title must be 250 characters or less.
+\begin{flushleft}
+{\Large
+\textbf\newline{Continuous real-time annotation fusion correction via rank-based spatial warping} % Please use "sentence case" for title and headings (capitalize only the first word in a title (or heading), the first word in a subtitle (or subheading), and any proper nouns).
+}
+\newline
+% Insert author names, affiliations and corresponding author email (do not include titles, positions, or degrees).
+\\
+Brandon M. Booth\textsuperscript{1},
+Karel Mundnich\textsuperscript{1},
+Shrikanth S. Narayanan\textsuperscript{1}
+\\
+\bigskip
+\textbf{1} Signal Analysis and Interpretation Lab, University of Southern California, Los Angeles, CA, USA
+\\
+\bigskip
+\end{flushleft}
 
 
-\begin{abstract}
-Human annotations are noisy and prone to influence from several factors including personal bias, task ambiguity, environmental distractions, health state, and more.  These annotations, however, are of integral value in human behavior studies, and in design and evaluation of machine learning applications, especially those involving hidden mental states that cannot effectively be measured or assessed by other means.  We propose a novel method for extending continuous real-time annotation fusion approaches to generate accurate ground truth estimates.  We validate our approach in a mechanically simple but perceptually demanding psychophysical annotation experiment where an objective truth is known.  Our method yields a ground truth in better agreement with the objective truth than state-of-the-art approaches and can be used to provide a more accurate fused annotation for real data.
-\end{abstract}
+\section*{Abstract}
+Human annotations are noisy and prone to influence from several factors including personal bias, task ambiguity, environmental distractions, and health state among others.  These annotations, however, are of integral value in human behavior studiabsolues, and in design and evaluation of machine learning applications, especially those involving hidden mental states that cannot effectively be measured or assessed by other means.  We propose a novel method for extending continuous real-time annotation fusion approaches to generate accurate ground truth estimates from these human annotations.  We validate our approach in a mechanically simple but perceptually demanding psychophysical annotation experiment where an objective truth is known.  Our method yields a truth label estimate in better agreement with the objective truth than state-of-the-art approaches and can be used to provide a more accurate ground truth for real data involving continuous human annotations.
 
-\begin{keyword}
-\MSC 41A05\sep 41A10\sep 65D05\sep 65D17
-\KWD Annotation fusion\sep Behavior signal processing\sep Ordinal embedding
-\end{keyword}
+\linenumbers
 
-\end{frontmatter}
+\section*{Introduction}
+Automated human behavior estimation and prediction problems for hidden state constructs such as emotional state, engagement, productivity, and attention are notoriously difficult and typically approached using supervised machine learning.  For these types of problems, self or expert annotations are often used to provide ratings for the target behavioral or experiential construct and establish a ground truth set of labels for machine learning.  However, the human annotation process is noisy and produces several types of artifacts in the labels due to factors such as perception bias, interpretation ambiguity, and distractions, to name a few.  The impact of these biases and cognitive effects on the annotations are magnified when the annotation task is complex or demands careful attention and vigilance over long sessions.  A time-economical annotation protocol is therefore paramount in order to obtain labels of the target construct that are consistent and congruent.  The usual strategy for combating these error sources involves gathering multiple annotations from different persons and fusing them to obtain a single ground truth.  Aggregation of multiple annotations helps mitigate the effect of noise and a careful fusion method ideally suppresses individual biases and artifacts, but there is yet no consensus on a best-practice fusion approach.
 
-\section{Introduction}
-Automated human behavior estimation and prediction problems for hidden state constructs such as emotional state, engagement, productivity, or attention are notoriously difficult and typically approached using supervised machine learning.  For these types of problems, self or expert annotations are often used to provide ratings for the target construct and establish a ground truth set of labels for machine learning.  However, the human annotation process is noisy and produces several types of label artifacts due to many factors such as perception bias, interpretation ambiguity, and distractions, to name a few.  The impact of these biases and cognitive effects on the annotations are magnified when the annotation task demands careful attention or vigilance over long sessions.  A time-economical annotation protocol is therefore paramount in order to obtain labels of the target construct that are consistent and congruent.  The usual strategy for combating these error sources involves gathering multiple annotations from different sources and fusing them to obtain a single ground truth.  Aggregation of multiple annotations helps mitigate the effect of noise and a careful fusion method ideally suppresses individual biases and artifacts, but there is yet no consensus on a best-practice fusion approach.
+In this work, we focus on a continuous-scale annotation scheme where annotators observe recordings of an experiment session and annotate the target construct in real-time.  This annotation scheme has been used for mental constructs that evolve steadily over time, like affective dimensions (arousal, valence, dominance) \cite{mckeown2012semaine, metallinou2013tracking, metallinou2013annotation, ringeval2013introducing, valstar2016avec}, and could be used for other mental states such as engagement, attention, productivity. More generally, this type of post-experiment annotation is useful whenever subject-reported annotations disrupt the natural flow of the target construct or introduce retroactive bias. For example, asking a subject to self-report \textit{engagement} periodically while watching an educational video disrupts his or her level of engagement when attention resources are reallocated from the video to answer the question.  Using a continuous-scale affords extra freedom to the annotators over discrete approaches to make subtle distinctions in perceived target construct changes.  Also, having the annotators perform the annotation in real-time rather than viewing snapshots of session recordings means they are able to make judgments that incorporate temporal context.  Like any annotation scheme, these choices introduce unique types of artifacts and noise and our focus in this paper is to correct specific types of errors that appear when using this annotation strategy.
 
-In this work, we focus on a continuous-scale annotation scheme where expert annotators observe recordings of an experiment session and annotate the target construct in real-time.  This annotation scheme has been used for mental constructs that evolve steadily over time like affective dimensions (arousal, valence, dominance) \citep{mckeown2012semaine, metallinou2013tracking, metallinou2013annotation, ringeval2013introducing, valstar2016avec}, and could be used for other mental states such as engagement, attention, productivity, or more generally whenever self-reports disrupt the natural flow of the target construct or introduce retroactive bias.  Continuous-scale real-time annotation affords extra freedom to the experts for subtle distinctions to be made while taking the full temporal context into account, but also is subject to further sources of noise and artifacts.
+Prior work on continuous annotation has focused on ground truth estimation by modeling and removing general sources of lag, noise, and/or artifacts.  One approach from Mariooryad et al. \cite{Mariooryad2015} finds an optimal time shift for separate annotations to align them before fusion via per-frame averaging.  This method corrects for variance in annotators' response times, but may perform poorly with adversarial annotations or changes in reaction lag over time (e.g. long annotation tasks).  Dynamic time warping \cite{DTW2007} is a well-known alignment solution that maximizes the agreement between annotators by handling variance in each annotators' lag time, but only corrects for temporal misalignments during fusion.  Long short-term memory networks (LSTMs) have also been proposed recently that correct for asynchronous annotator lag when fusing annotations using additional contextual information \cite{Ringeval2015}.  This approach seems to elegantly handle lag differences between annotators when fusing, but has only been shown to achieve good objective truth approximations when the contextual representation is appreciably informative of the underlying construct.
 
-Prior work on continuous annotation has focused on ground truth estimation by modeling and removing general sources of lag, noise, and/or artifacts.  One approach from \cite{Mariooryad2015} finds an optimal time shift for separate annotations to align them before fusion via per-frame averaging.  This method corrects for variance in annotators' response times, but may perform poorly with adversarial annotations or changes in reaction lag over time (e.g. long annotation tasks).  Dynamic time warping \citep{DTW2007} is a well-known alignment solution that maximizes the agreement between annotators by handling variance in individual annotators' lag times, but also only corrects for temporal misalignments during fusion.  Long short-term memory networks (LSTMs) have also been proposed recently that correct for asynchronous annotator lag when fusing annotations using additional contextual information \citep{Ringeval2015}.  This approach seems to elegantly handle lag differences between annotators when fusing, but has only been shown to achieve good objective truth approximations when the contextual representation is appreciably informative of the underlying construct.
+Furthermore, canonical correlation analysis (CCA) \cite{CCA1936} and correlated spaces regression (CSR) \cite{nicolaou2013correlated} focus on correcting systemic and consistent personal annotation biases by learning a projection function for a set of features that maximizes the projected features' correlation with the set of annotations.  These two approaches correct for spatial annotation biases and require a separate set of features to be extracted from the stimulus that are in some combination representative of the changes in annotation signal values.  Extensions of this tenet such as canonical time warping (CTW) \cite{CTW2009}, deep canonical correlation analysis (DCCA) \cite{andrew2013deep}, dynamic probabilistic canonical correlation analysis and time warping (DPCCA/DPCTW) \cite{nicolaou2014dynamic}, deep canonical time warping (DCTW) \cite{trigeorgis2016deep}, and generalized canonical time warping (GCTW) \cite{Zhou2016} have also been studied and shown to perform well on various data sets.  With the right set of features these methods can produce desirable fusions but often in human behavior studies these ideal features are as elusive as the estimation problems for which they are used, especially when annotation artifacts do not correlate with directly observable features of the stimulus.
 
-Furthermore, canonical correlation analysis (CCA) \citep{CCA1936} and correlated spaces regression (CSR) \citep{nicolaou2013correlated} focus on correcting systemic and consistent personal annotation biases by learning a projection function for a set of features that maximizes the projected features' correlation with the set of annotations.  These two approaches correct for spatial annotation biases and require a separate set of features to be extracted from the stimulus that are in some combination representative of the changes in annotation signal values.  Extensions of this tenet such as canonical time warping (CTW) \citep{CTW2009}, deep canonical correlation analysis (DCCA) \citep{andrew2013deep}, dynamic probabilistic canonical correlation analysis and time warping (DPCCA/DPCTW) \citep{nicolaou2014dynamic}, deep canonical time warping (DCTW) \citep{trigeorgis2016deep}, and generalized canonical time warping (GCTW) \citep{Zhou2016} have also been studied and shown to perform well on various data sets.  With the right set of features these methods can produce desirable fusions but often in human behavior studies these ideal features are as elusive as the estimation problems for which they are used, especially when annotation artifacts do not correlate with directly observable features of the stimulus.
+Other graph-based methods use a shared latent state to model the ideal annotation signal and separate distortion states to learn annotators' biases and artifacts \cite{audhkhasi2013globally, zhu2015fusing, Gupta2016}.  For analytical convenience and to reduce sample complexity, these Bayesian network models assume exponential family priors for spatial distortion modeling, which are not necessarily reflective of the types of errors annotators make.  As volunteer-based crowd sourcing platforms such as Amazon's Mechanical Turk become more popular choices for large-scale annotation tasks, it becomes more difficult to model and fit a family of distortion functions to each annotator with confidence.
 
-Other methods use a shared latent state to model the ideal annotation signal and separate distortion states to learn annotators' biases and artifacts \citep{audhkhasi2013globally, zhu2015fusing, Gupta2016}.  For analytical convenience and to reduce sample complexity, these Bayesian network models assume exponential family priors for spatial distortion modeling, which are not necessarily reflective of the types of errors expert annotators make.  As volunteer-based crowd sourcing platforms such as Amazon's Mechanical Turk become more popular choices for large-scale annotation tasks, it becomes more difficult to model and fit a family of distortions to each annotator with confidence.
+The fundamental problem confounding annotation fusion methods to date is the reliance on the average quality of continuous annotations.  Several studies have shown that people are better at comparative ranking than absolute rating \cite{Yannakakis2011, metallinou2013annotation, yannakakis2015ratings} suggesting that continuous annotations may not exhibit coherence and self-consistency.  In this paper we affirm this idea by presenting the results from simple continuous annotation experiments showing high levels of agreement between annotators and a lack of consistency in labeling over time.  We then present a post-annotation correction method where additional relative rank information about interval subsets of the fused annotations are used to warp the result to better approximate the objective truths.  Several well-studied data sets involving human annotation already exist such as AVEC \cite{valstar2016avec}, SEMAINE \cite{mckeown2012semaine}, and HCI Tagging \cite{soleymani2012multimodal}, but the target construct in each has no objective truth measure.  Rather than focusing on evaluating the proposed ground truth technique by comparing performance end-to-end (prediction accuracy) in these latent state data sets, we validate our approach on data from new experiments that are reflective of the types of perceptual problems that occur in hidden state annotation tasks, but where objective truths are known \textit{a priori}.  We further the utility of our approach by testing the robustness of our technique to noisy and incomplete additional information. This method is complementary to other human annotation fusion procedures and can be used to obtain better objective truth approximations for use as ground truth.
 
-The fundamental problem confounding annotation fusion methods to date is the reliance on the average quality of continuous annotations.  Several studies have shown that people are better at comparative ranking than absolute rating \citep{Yannakakis2011, metallinou2013annotation, yannakakis2015ratings} suggesting that absolute continuous annotations may not exhibit coherence and self-consistency.  In this paper we affirm this idea by presenting the results from simple continuous annotation experiments showing high levels of agreement between annotators and a lack of consistency in labeling over time.  We then present a post-annotation correction method where additional relative rank information about interval subsets of the fused annotations are used to warp the result to better approximate the objective truths.  Rather than focusing on evaluating performance in latent state experiments, we validate our approach on experiments that are reflective of the types of perceptual problems that occur in hidden state annotation tasks, but where objective truths are known \textit{a priori}.  We further the utility of our approach by testing the robustness of our technique to noisy and incomplete additional information. This method is complementary to other fusion procedures and can be used to obtain better ground truth approximations.
+\section*{Experiment}
+We used a simple but perceptually challenging annotation task where the objective truth was known for our study.  Ten annotators were asked to separately rate the intensity of the color green in real-time and on a continuous scale in two videos.  The videos were less than five minutes in length, 864x480 resolution, and comprised entirely of solid color frames of green at varying green channel intensities in RGB color space.  In each video, the green intensity changed at different speeds and times while avoiding discontinuous jumps.  The annotation process was designed to be mechanically undemanding with a simple responsive interface to help ensure the main annotation challenge laid in the translation of perceived green intensity to annotation rating.
 
-\section{Experiment}
-We used a simple but perceptually challenging annotation task where the objective truth was known for our study.  Ten annotators were asked to separately rate the intensity of the color green in real-time and on a continuous scale in two videos.  The videos were less than five minutes in length, 864x480 resolution, and comprised entirely of solid color frames of green at varying green channel values in RGB color space.  In each video, the green value was designed to change at different speeds and times while avoiding discontinuous changes.  The intention was to make the annotation process mechanically easy with the simple interface provided and to help ensure the main annotation challenge laid in the translation of green intensity perception to annotation rating.
+The annotation process occurred in real time where annotators adjusted an interface in tandem with perceived changes in the video.  A slider widget representing a float value between zero (corresponding to black) and one (corresponding to full green) was displayed and annotators were instructed to watch the video and use a mouse to move the slider according to how intense the green color appeared.  No further instructions or clarifications were given. The value of the slider was recorded for each video frame at 30Hz, and a picture of the interface is shown in Fig~\ref{Fig:annotation_ui}.
 
-The annotation process occurred in real time where annotators adjusted an interface in tandem with perceived changes in the video.  A slider widget representing a float value between zero (corresponding to black) and one (corresponding to full green) was displayed and annotators were instructed to watch the video and use a mouse to move the slider according to how green the video appeared.  No further instructions or clarifications were given. The value of the slider was recorded for each video frame at 30Hz, and a picture of the interface is shown in Figure \ref{fig:annotation_ui}.
-
-\begin{figure}
+\begin{figure}[t]
+    \begin{adjustwidth}{-2.25in}{0in}
 	\centering
-	\begin{subfigure}{0.49\columnwidth}
-	\includegraphics[width=\columnwidth]{images/green_ui}
-	\end{subfigure}
-	\begin{subfigure}{0.49\columnwidth}
-	\includegraphics[width=\columnwidth]{images/green_ui2}
-	\end{subfigure}
-	\caption{Snapshot of the user interface at different times during the green channel value annotation task.  Annotators only adjusted the slider in sync with changes in the green video.}
-	\label{fig:annotation_ui}
+	\includegraphics[width=\imagewidth]{images/green_ui.eps}
+	\caption{Snapshot of the user interface at different times during the green intensity annotation task.  Annotators only adjusted the slider in sync with changes in the green video.}
+	\label{Fig:annotation_ui}
+	\end{adjustwidth}
 \end{figure}
 
-Figure \ref{fig:annotations_ot} shows a plot of all ten annotations alongside the objective truth for both annotation tasks.  This plot suggests that annotators were generally quite good at capturing large changes and trends, but had difficulties in several areas.  First, most annotators tended to over-shoot the target value when annotating increases or decreases in value over a period of time thus suggesting they were fixated on annotating the rate of change rather than the actual rating.  Annotators were sensitive to and captured the appropriate direction of change, but sometimes were unable to estimate the correct rate of change.  Secondly, we note that approximately half of the annotators struggled to capture the lack of change in green value especially during the 100 to 150-second time interval in Figure \ref{fig:annotations_ot_a}.  One possible explanation is that the longer duration of this constant segment gave annotators time to realize their current rating did not match their perception and then adjust the value to match in spite of what was (not) occurring in the video.  Lastly, we note that similar green values were annotated inconsistently over time.  In particular, there was a significant difference in average annotation value per annotator between different time intervals where the green intensity was actually at a constant 0.5 value (see Figure \ref{fig:annotations_ot_a}).
+Fig~\ref{Fig:2} shows a plot of all ten annotations alongside the objective truth for two separate annotation tasks.  Inter-rater reliability measures were computed using a two-way mixed average measure (ICC(3,k)) for both tasks and achieved approximately 0.97 for each earning an \textit{excellent} agreement rating according to \cite{cicchetti1994guidelines}.  These plots, especially Fig~\ref{Fig:2}b and Fig~\ref{Fig:2}d, suggest that annotators were generally quite good at capturing large-scale changes and trends, but had difficulties in other areas.  First, most annotators tended to over-shoot the target value when annotating increases or decreases in value over a period of time thus suggesting they were fixated on annotating the rate of change rather than the actual rating.  Annotators were sensitive to and captured the appropriate direction of green intensity changes, but sometimes were unable to estimate the actual rate of change.  Secondly, we note that approximately half of the annotators struggled to capture the lack of change in green intensity especially during the 100 to 150-second time interval in Fig~\ref{Fig:2}c.  One possible explanation is that the longer duration of this constant segment gave annotators time to realize their current intensity ratings did not match their perception and then adjust the value to match in spite of what was (not) occurring in the video.  Lastly, we note that similar green intensities were annotated inconsistently over time.  In particular, there was a significant difference in average annotation value per and within an annotator between different time intervals where the green intensity was actually at a constant 0.5 value (see Fig~\ref{Fig:2}a and Fig~\ref{Fig:2}c).
+
+\begin{figure}[t]
+    \begin{adjustwidth}{-2.25in}{0in}
+	\centering
+    \includegraphics{images/Fig2.eps}
+    \vspace{0.2cm}
+	\caption{Plots of the objective truths and annotations of green channel intensity from 10 different annotators in two separate tasks.}
+	\label{Fig:2}
+	\end{adjustwidth}
+\end{figure}
+
+This last observation implies that even for this relatively simple annotation task, it is difficult for annotators to accurately capture the trends while preserving self-consistency over time.  Given prior evidence that humans are better at ranking than rating \cite{Yannakakis2011, metallinou2013annotation, yannakakis2015ratings} and our own observations from this study, we assume that in continuous real-time annotation, humans are more focused on and perhaps even better at faithfully capturing trends and less able to accurately assess the true value at any point in time.  We present a procedure for correcting these rating inconsistencies while preserving the more precise trend annotations.
+
+\section*{Fused Annotation Warping}
+
+We propose a method for warping fused annotations to establish a ground truth signal that has been corrected for various global inconsistencies, artifacts, and errors introduced during the real-time continuous human annotation process.  The method leverages a recurring observation that annotators more successfully capture trends and less accurately represent exact ratings \cite{Yannakakis2011, metallinou2013annotation, yannakakis2015ratings}.  In our approach, additional information must be collected from annotators after the continuous annotation task.  We leverage the structure of the fused annotations to identify spans of time where the target construct does not change and thus reduce the amount of necessary additional information.  Further significant reductions to this required supplementary information are discussed in the results section.
+
+Our method is summarized as a sequence of steps shown in Fig~\ref{Fig:pipeline}.  The first step fuses the raw annotations together to form a single time series.  In this paper, this step simply time-aligns and averages all annotations to reduce systemic noise and limit the influence of random annotation artifacts.  In principle, any annotation fusion method could be used at this stage.  Total variation (TV) denoising is then used to approximate the fused signal as a piecewise-constant step function.  Constant intervals are extracted from the denoised signal corresponding to time spans where annotators generally agree that the target construct does not noticeably change.  Additional rank information is then procured from annotators to re-evaluate the proper sorting of the these constant intervals with respect to the target construct.  We collect comparison results among unique triplets of these constant intervals and employ an ordinal embedding technique to re-rank them.  Finally, the average signal is warped piecewise-linearly so the corresponding constant intervals align with the embedding.  These steps and their assumptions are described in detail in the corresponding sections below.
 
 \begin{figure*}[t]
+    \begin{adjustwidth}{-2.25in}{0in}
 	\centering
-	\begin{subfigure}{0.49\textwidth}
-	\includegraphics[width=\columnwidth]{images/annotations_ot}
-	\caption{\footnotesize Task A \hspace*{1.2cm}}
-	\label{fig:annotations_ot_a}
-	\end{subfigure}
-	\begin{subfigure}{0.49\textwidth}
-	\includegraphics[width=\columnwidth]{images/annotations_ot2}
-	\caption{\footnotesize Task B \hspace*{1cm}}
-	\label{fig:annotations_ot_b}
-	\end{subfigure}
-	\caption{Annotations of green channel values alongside the true value in two separate annotation tasks.}
-	\label{fig:annotations_ot}
-\end{figure*}
-
-This last observation implies that even for this relatively simple annotation task, it is difficult for annotators to accurately capture the trends while preserving self-consistency over time.  Given prior evidence that humans are better at ranking than rating \citep{Yannakakis2011, metallinou2013annotation, yannakakis2015ratings} and our own observations from this study, it is reasonable to assume that in continuous real-time annotation, experts are more focused and perhaps even better at faithfully capturing trends and less able to accurately assess the true value at any point in time.  We present a procedure for correcting these rating inconsistencies while preserving the more precise trend annotations.
-
-\section{Fused Annotation Warping for Ground Truth Estimation}
-
-We propose a method for warping fused annotations to establish a ground truth signal that has been corrected for various global inconsistencies, artifacts, and errors introduced during the real-time continuous human annotation process.  The method leverages a recurring observation that annotators more successfully capture trends and less accurately represent exact ratings \citep{Yannakakis2011, metallinou2013annotation, yannakakis2015ratings}.  In our approach, additional information must be collected from annotators after the continuous annotation task.  We leverage the structure of the fused annotations to identify segments of time in the video that can be treated as congruent units and thus reduce the amount of necessary additional information.  Further significant reductions to the required supplementary information are discussed in the results section.
-
-Our method is summarized as a sequence of steps shown in Figure \ref{fig:pipeline}.
-\begin{figure*}[t]
-	\centering
-	\includegraphics[width=\textwidth]{images/RankBasedSignalWarpingPipeline}
+	\includegraphics[width=\imagewidth]{images/Fig3.eps}
 	\caption{Proposed pipeline for ground truth correction given continuous human annotations.}
-	\label{fig:pipeline}
+	\label{Fig:pipeline}
+	\end{adjustwidth}
 \end{figure*}
 \iffalse
 \begin{enumerate}
@@ -148,67 +268,69 @@ Our method is summarized as a sequence of steps shown in Figure \ref{fig:pipelin
     \item Fused annotation warping
 \end{enumerate}
 \fi
-The first step fuses the raw annotations together to form a single time series.  In this paper, this step simply time-aligns and averages all annotations to reduce systemic noise and limit the influence of random annotation artifacts.  Total variation (TV) denoising is then used to approximate the fused signal as a piecewise-constant step function.  Constant intervals are thereafter extracted from the denoised signal corresponding to time spans where annotators generally agree that the target construct does not noticeably change.  Additional rank information is then procured from annotators to re-evaluate the proper sorting of the these time intervals with respect to the target construct.  We collect comparison results among unique triplets of these constant intervals and employ an ordinal embedding technique to re-rank them.  Finally, the average signal is warped piecewise-linearly so the corresponding constant intervals align with the embedding.  These steps and their assumptions are described in detail in the corresponding sections below.
 
-\subsection{Lag Compensation and Averaging (Annotation Fusion)}
-The first step involves estimating an appropriate time shift for each annotation signal to align them with the video and compensate for lag due to human reaction times.  Several methods have been proposed for this \citep{DTW2007, CTW2009, andrew2013deep, nicolaou2014dynamic, Mariooryad2015, Ringeval2015, trigeorgis2016deep} and in principle any choice works for this step.  We use a simple per-annotator time shift (EvalDep) proposed by \cite{Mariooryad2015}.  This method requires some feature sequences to be extracted from the video for alignment, so we provide the green value and its forward difference per frame.  The average annotation lag is estimated at 1.6 seconds across annotators.  After shifting each annotation by its own lag estimate, we truncate the trailing frames so all annotations are equal length and then average them in time.  Note that the lag compensation is not strictly necessary but yields better final results. Figure \ref{fig:average_and_objective} shows the time-corrected average annotation signal for one of the annotation tasks.
+\subsection*{Lag Compensation and Averaging (Annotation Fusion)}
+The first step involves estimating an appropriate time shift for each annotation signal to align it with the video and compensate for system lag and human reaction time.  Several methods have been proposed for this \cite{DTW2007, CTW2009, andrew2013deep, nicolaou2014dynamic, Mariooryad2015, Ringeval2015, trigeorgis2016deep} and in principle any choice works for this step.  We use a simple per-annotator time shift (\textit{EvalDep}) proposed by Mariooryad et al. \cite{Mariooryad2015}.  This method requires some feature sequences to be extracted from the video for alignment, so we provide the green value and its forward difference per frame.  The average annotation lag is estimated at 1.6 seconds across annotators.  After shifting each annotation by its own lag estimate, we truncate the trailing frames so all annotations are equal length and then average them in time. This lag compensation is not strictly necessary for the success of the proposed method but yields better final results. Fig~\ref{Fig:4}a shows the time-corrected average annotation signal for Task A.
 
-\subsection{Total Variation Denoising}
-Total variation denoising has been successfully used to remove salt and pepper noise from images while simultaneously preserving signal edges \citep{rudin1992nonlinear}.  In our context, we want to identify the set of nearly constant regions of the average annotation signal corresponding to a lack of noticeable change in the target construct.  TV denoising is preferable to other smoothing processes both because it approximates the function as a piecewise-constant step function as is desired, and also because it better preserves the structure of the signal.
+\subsection*{Total Variation Denoising}
+Total variation denoising has been successfully used to remove salt and pepper noise from images while simultaneously preserving signal edges \cite{rudin1992nonlinear}.  In our context, we want to identify the set of nearly constant regions of the average annotation signal corresponding to a lack of noticeable change in the target construct.  TV denoising is preferable to other smoothing processes both because it approximates the signal as a piecewise-constant step function as is desired, and also because it better preserves the structure.
 
-We use the TFOCS MATLAB library \citep{becker2011templates} to find a new sequence $y_t$ that approximates a given sequence $x_t$ and minimizes:
+We use the TFOCS MATLAB library \cite{becker2011templates} to find a new sequence $y_t$ that approximates a given sequence $x_t$ by minimizing:
 \begin{equation*}
-\min_{y_t} \Big[\sum_{t} ||x_t - y_t||_{\ell_2}^2 + \lambda\sum_{t} ||y_{t+1} - y_{t}||_{\ell_1}\Big]
+y_t = \min_{y_t} \Big[\sum_{t} ||x_t - y_t||_{\ell_2}^2 + \lambda\sum_{t} ||y_{t+1} - y_{t}||_{\ell_1}\Big]
 \end{equation*}
-The parameter $\lambda$ controls the influence of the temporal variation term and degree to which $y_t$ is approximately piecewise-constant.  In general this parameter needs to be tuned to produce a desirable sequence.  For this study, we hand-tune $\lambda$ and settle on a value of 0.05.  In principle, this parameter can be automatically selected based on other criteria and heuristics, but we leave this endeavor for future work.  Figure \ref{fig:tv_and_intervals} shows an example TV-denoised signal.
+The parameter $\lambda$ controls the influence of the temporal variation term and degree to which $y_t$ is approximately piecewise-constant.  In general this parameter needs to be tuned to produce a desirable sequence.  For this study, we hand-tune $\lambda$ and settle on a value of 0.05.  In principle, this parameter can be automatically selected based on other criteria and heuristics, but we leave this endeavor for future work.  Fig~\ref{Fig:4}b shows an example TV-denoised signal.
 
 \begin{figure*}
+    \begin{adjustwidth}{-2.25in}{0in}
 	\centering
-	\begin{subfigure}{0.49\textwidth}
-	\includegraphics[width=\textwidth]{images/average_and_objective}
-	\caption{Plot of time-corrected annotation average and objective truth.}
-	\label{fig:average_and_objective}
-	\end{subfigure}
-	\begin{subfigure}{0.49\textwidth}
-	\includegraphics[width=\textwidth]{images/tv_and_intervals}
-	\caption{Plot of TV-denoised fused annotation with extracted constant intervals.}
-	\label{fig:tv_and_intervals}
-	\end{subfigure}
+	\includegraphics{images/Fig4.eps}
 	\caption{Results at intermediate stages of the proposed method pipeline for Task A.}
-	\label{fig:average_and_objective_and_tv}
+	\label{Fig:4}
+	\end{adjustwidth}
 \end{figure*}
 
-\subsection{Constant Interval Extraction}
-A simple heuristic method is used to extract nearly constant intervals from the TV-denoised signal.  These time intervals become the targets for re-ranking in the next step when an ordinal embedding is applied.  In this step, a scan of the TV-denoised signal is performed and the smallest set of (largest) intervals is found where each interval satisfies two criteria: (1) the total height does not exceed threshold $h$, and (2) the frame length of the interval is at least $T$ frames.  Figure \ref{fig:tv_and_intervals} shows example extracted approximately constant intervals for one of the annotation tasks.
+\subsection*{Constant Interval Extraction}
+A simple heuristic is used to extract nearly constant intervals from the TV-denoised signal.  The intervals become the targets for re-ranking in the next step when an ordinal embedding is applied.  In this step, a scan of the TV-denoised signal is performed and the smallest set of (largest) intervals is found where each interval satisfies two criteria: (1) the total height does not exceed threshold $h$, and (2) the frame length of the interval is at least $T$ frames.  Fig~\ref{Fig:4} shows the extracted approximately constant intervals for annotation Task A.
 
-For our experiment, we select $h=0.005$ and $T=18$ frames (for 30Hz videos).  The height threshold is chosen to be very small relative to the size of the annotation scale so only very flat regions are considered.  Because TV denoising does well at approximating the signal as a piecewise-constant function, we find this step in the overall procedure is not very sensitive to $h$.  The $T$ value is selected to match the duration of the fastest change in the objective truth.  In practice, this parameter could be approximated from the average annotation signal or tuned manually, but should be set no smaller than the equivalent of 0.25 seconds, which is roughly the average human reaction time.  In the future, we hope to obviate these parameters to make this approach more scalable and robust.
+For our experiment, we select $h=0.005$ and $T=18$ frames (for 30Hz videos).  The height threshold is chosen to be very small relative to the size of the annotation scale so only very flat regions are considered.  Because TV denoising does well at approximating the signal as a piecewise-constant function, we find this step in the overall procedure is not very sensitive to perturbations of $h$.  The $T$ value is selected to match the duration of the fastest change in the objective truth.  In practice, this parameter could be approximated from the average annotation signal or tuned manually, but should be set no smaller than the equivalent of 0.25 seconds, which is roughly the average human reaction time.  In the future, we hope to obviate these parameters to make this approach more scalable and robust.
 
-\subsection{Triplet Comparisons}
-In this step during an actual experiment, annotators are asked to view three extracted video segments corresponding to each unique triplet of intervals.  One video segment serves as a reference and the other two as test candidates and the annotator is instructed to select which of the two candidate video segments is most similar to the reference.  For the purpose of assessing the robustness of this approach to missing and conflicting comparison information, we simulate the comparison results using the objective truth as an oracle.  Further analysis of these effects are explored in the results section.
+\subsection*{Triplet Comparisons}
+In this step during an actual experiment, annotators would be asked to compare three extracted video segments corresponding to each unique triplet of contant intervals.  One video segment serves as a reference and the other two as test candidates and the annotator is instructed to select which of the two candidate video segments is most similar to the reference.  For the purpose of assessing the robustness of this approach to missing and conflicting comparison information, we simulate the comparison results using the objective truth as an oracle.  Further analysis of these effects are explored in the results section.
 
-\subsection{Ordinal Embedding}
+\subsection*{Ordinal Embedding}
 Ordinal embedding problems attempt to learn a (typically lower dimension) embedding that preserves a similarity relationship between subsets of data points.  Given a set of inputs $\mathcal{Z} = \{z_1,...,z_n\}$ with each $z \in \mathbb{R}^m$ and a set of similarity relations on 4-tuples from $\mathcal{Z}$ of the form $s(z_i,z_j) < s(z_k,z_l)$ where $\{i,j,k,l\}$ is a 4-subset of $\{1,2,...,n\}$, the goal is to find a set $\mathcal{X} = \{x_1,...,x_n\}$ with each $x \in \mathbb{R}^d$ such that:
 \begin{equation*}
 ||x_i-x_j|| < ||x_k-x_l|| \Longleftrightarrow s(z_i,z_j) < s(z_k,z_l)
 \end{equation*}
 \noindent
-for some norm on $\mathcal{X}$. For our application, we are interested in the case $i=k$ where we have ordinal comparisons in the form of triplets (i.e. sample $i$ is more similar to sample $j$ than $k$).  One reason to prefer this simplification of the general problem is that it reduces the cardinality of the set of all possible comparisons given $\mathcal{Z}$ and thus the amount of additional information we need.
+for some norm on $\mathcal{X}$. For our application, we are interested in the case $i=k$ where we have ordinal comparisons in the form of triplets (i.e. sample $i$ is more similar to sample $j$ than $k$).  One reason to prefer this simplification of the general problem is that it reduces the cardinality of the set of all possible comparisons given $\mathcal{Z}$ and thus the amount of additional information we need.  Another rationale is that collecting comparisons over triplets is more intuitive to people and has been studied in prior works \cite{jain2016finite, van2012stochastic}.
 
-A further reduction would be possible if we consider relationships of the form:
+A further reduction in the complete number of comparisons would be possible if we consider relationships of the form:
 \begin{equation*}
 ||x_i|| < ||x_k|| \Longleftrightarrow ||z_i|| < ||z_k||
 \end{equation*}
-for unique index pairs $\{i,k\}$.  This setup supposes that it is possible to directly assign a value to each sample $z$ with respect to the target construct for the purpose of comparing two samples, but this may not always be possible.  In cases where multiple conflicting or ambiguous criteria exist, as in the annotation of smile strength \citep{Gupta2016}, such a scale may not exist or be too unintuitive for human annotators.  So, for generality of this procedure, we choose the triplet comparison approach.
+for unique index pairs $\{i,k\}$.  This setup supposes that it is possible to directly assign a value to each sample $z$ with respect to the target construct for the purpose of comparing two samples, but this may not always be possible.  In cases where multiple conflicting or ambiguous criteria exist, as in the annotation of smile strength \cite{Gupta2016}, such a scale may not exist or be too unintuitive for human annotators.  So, for generality of this procedure, we choose the triplet comparison approach.
 
-With triplets, the total number of comparisons that can be made when $|\mathcal{Z}|=n$ is $n\cdot{n-1 \choose 2}$ which scales $\mathcal{O}(n^3)$.  Fortunately, there is considerable redundancy in the comparison information and only a small fraction is necessary to find an embedding close to the optimal embedding.  Prediction error bounds have already been derived for a noisy formulation of this triplet embedding problem \citep{jain2016finite}, nonetheless we expect that the number of comparisons must scale like $\mathcal{O}(dn\log(n))$ ($d=1$ in our experiment).
+With triplets, the total number of comparisons that can be made when $|\mathcal{Z}|=n$ is $n\binom{n-1}{2}$ which scales $\mathcal{O}(n^3)$.  Fortunately, there is considerable redundancy in the comparison information and only a small fraction is necessary to find an embedding close to the optimal embedding.  Prediction error bounds have already been derived for a slightly different noisy formulation of this triplet embedding problem \cite{jain2016finite}, nonetheless we expect that the number of comparisons must scale like $\mathcal{O}(d n\log(n))$ ($d=1$ in our experiment).
 
-In our method, ordinal embedding is used to reorder the constant intervals to make them more self-consistent and rank-aligned with the objective truth.  Several triplet ordinal embedding solvers have been proposed \citep{agarwal2007generalized, tamuz2011adaptively, van2012stochastic, amid2015multiview}.  We employ the t-stochastic triplet embedding (t-STE) approach \citep{van2012stochastic} because, as the authors highlight, it aggregates similar points and repels dissimilar ones.  We also favor this approach because it prefers the simpler explanation that two points in the embedding are identical when no evidence suggests otherwise (Occam's Razor principle).  Figure \ref{fig:warp_evaldep} shows the embedding results for the extracted constant intervals that have been rescaled to the proper $[0,1]$ range and computed using a complete set of triplet comparisons from the oracle.  Note that the embedding only preserves the relative similarity relationships, so the embedding scale is expected to be off by a (unknown) monotonic transformation of the objective truth's scale.
+In our method, ordinal embedding is used to reorder the constant intervals to make them more self-consistent and rank-aligned with the objective truth.  Several ordinal embedding solvers over triplets have been proposed \cite{agarwal2007generalized, tamuz2011adaptively, van2012stochastic, amid2015multiview}.  We employ the t-stochastic triplet embedding (t-STE) approach \cite{van2012stochastic} because, as the authors highlight, it aggregates similar points and repels dissimilar ones.  We also favor this approach because it prefers the simpler explanation that two points in the embedding are identical when no evidence suggests otherwise (Occam's Razor principle).  Fig~\ref{Fig:warp_evaldep} shows the embedding results for the extracted constant intervals that have been rescaled to the proper $[0,1]$ range and computed using a complete set of triplet comparisons from the oracle.  Note that the embedding only preserves the relative similarity relationships, so the embedding scale is expected to be off by a (unknown) monotonic transformation of the objective truth's scale.
 
-\subsection{Spatial Warping}
+\begin{figure*}
+    \begin{adjustwidth}{-2.25in}{0in}
+	\centering
+    \includegraphics{images/Fig6.eps}
+	\caption{Plot of the objective truth signal, time-shifted average annotation signal, warped signal, and the 1-D embedding for extracted constant intervals for Task A.  The spatially warped signal better approximates the structure of the objective truth and also achieves greater self-consistency over the entire annotation duration.}
+	\label{Fig:warp_evaldep}
+	\end{adjustwidth}
+\end{figure*}
 
-In the final step, the fused annotation is spatially warped using the ordinal embedding results with the extracted constant intervals to rectify inconsistencies.  First, within the time frame of each interval the annotation is corrected so its average over the interval is equal to the corresponding embedding value.  Then, the annotation between two intervals is linearly scaled to align with the warped annotation at the neighboring intervals.  We select a linear inter-interval warping function because it avoids distorting the signal.  A formal definition is provided by Equations \ref{eqn:interval_difference} and \ref{eqn:warp} in Figure \ref{fig:equations}, and Figure \ref{fig:warp_evaldep} shows the results after applying this warping technique.
+\subsection*{Spatial Warping}
+
+In the final step, the fused annotation is spatially warped to rectify inconsistencies using the ordinal embedding results for the extracted constant intervals.  Within the time frame of each interval, the fused annotation is corrected so its average over the interval is equal to the corresponding embedding value.  Then, the fused annotation between each constant interval is linearly scaled to align with its neighboring repositioned constant intervals.  We select a linear inter-interval warping function because it avoids distorting the signal.  A formal definition is given in Eqs~(\ref{eqn:interval_difference},\ref{eqn:warp}) in Fig~\ref{Fig:equations}.  Fig~\ref{Fig:warp_evaldep} shows the results after applying this warping technique.
 
 \begin{figure*}[!t]
+\begin{adjustwidth}{-2.25in}{0in}
 \normalsize
 %\setcounter{MYtempeqncnt}{\value{equation}}
 \setcounter{equation}{0}
@@ -231,23 +353,17 @@ y_t + S_t & \exists \mathcal{I}_i \in \mathcal{I} : t \subseteq \mathcal{I}_i \\
 \hrulefill
 % The spacer can be tweaked to stop underfull vboxes.
 \vspace*{4pt}
-\caption{Equations for our proposed spatial warping method. Let $\mathcal{I}$ and $\mathcal{E}$ be the ordered and corresponding sets of non-overlapping time intervals and embedding values respectively.  Define $S_t$ for each interval $\mathcal{I}_i \in \mathcal{I}$ and $i \in \{1,2,...,|\mathcal{I}|\}$ to be the difference between interval $i$'s average value and the corresponding embedding value.  Let $t \in \{1,2,...,T\}$ be a time index, $y_t$ denote the fused annotation signal, $y'_t$ denote the warped signal value, and $\mathcal{J}$ be the set of time ranges between the intervals in $\mathcal{I}$ ($\{1,2,...,T\} \setminus \cup_{i} \mathcal{I}_i$).  A subscript $+$ or $-$ denotes a time just before or after the associated time index.  Edge cases where the time indices fall outside of $\{1,...,T\}$ are handled using the average signal value at the boundary.}
-\label{fig:equations}
+\caption{Equations for our proposed spatial warping method. Let $\mathcal{E}$ and $\mathcal{I}$ be the ordered and corresponding sets of embedding values and time intervals corresponding to the constant intervals respectively.  Define $S_t$ for each interval $\mathcal{I}_i \in \mathcal{I}$ and $i \in \{1,2,...,|\mathcal{I}|\}$ to be the difference between interval $i$'s average value and the corresponding embedding value.  Let $t \in \{1,2,...,T\}$ be a time index, $y_t$ denote the fused annotation signal, $y'_t$ denote the warped signal value, and $\mathcal{J}$ be the set of time ranges between the intervals in $\mathcal{I}$ ($\{1,2,...,T\} \setminus \cup_{i} \mathcal{I}_i$).  A subscript $-$ or $+$ denotes a time just before or after the associated time index.  Edge cases where the time indices fall outside of $\{1,...,T\}$ are handled using the average signal value at the boundary.}
+\label{Fig:equations}
+\end{adjustwidth}
 \end{figure*}
 
-\begin{figure*}
-	\centering
-	\includegraphics[width=0.8\textwidth]{images/warp_evaldep}
-	\caption{Plot of the objective truth signal, time-shifted average annotation signal, warped signal, and the 1-D embedding for extracted constant intervals for Task A.  The spatially warped signal better approximates the objective truth and also achieves greater self-consistency over the entire annotation duration.}
-	\label{fig:warp_evaldep}
-\end{figure*}
-
-\section{Results}
-Table \ref{tab:results} shows various agreement measures for different annotation fusion approaches and the objective truth in our perception experiment.
+\section*{Results}
+Table \ref{tab:results} shows various agreement measures for the objective truth and prior established annotation fusion approaches that are intended to produce ground truth estimates.
 
 \setlength\tabcolsep{1pt}
 \setlength\extrarowheight{1pt}
-\begin{table}[h!]
+\begin{table}[ht!]
 \caption{\label{tab:results} Agreement measures for baseline and proposed warped fused annotation approaches}
 \centering
 \begin{tabular}{ cccccc } 
@@ -278,28 +394,35 @@ Table \ref{tab:results} shows various agreement measures for different annotatio
 {\footnotesize All warped results use a complete set of ordinal comparisons from the oracle. NMI = normalized mutual information.  \\ $^\dagger$ - significant improvement ($p<0.005$, using a Fisher z-transform) of the warped methods over the respective signal \\ $^{*}$ - method from \cite{Gupta2016} \\ $^{**}$ - method from \cite{Mariooryad2015}}
 \end{table}
 
-Three baseline annotation fusions are shown, one is a simple average of the expert annotations, one is the maximum likelihood estimation from a per-annotator distortion model \citep{Gupta2016}, and the last is a time-aligned average using evaluator-dependent time shifts \citep{Mariooryad2015}.  Our rank-based warping method is applied to each baseline using a full set of triplet comparisons from the oracle.  In all cases except for one, the warping method achieves significantly better results ($p<0.005$) when agreement is measured using Pearson correlation or normalized mutual information.  In the one outlier case, the ``distort'' model already approximates the objective truth extremely well because the true signal is very smooth.  In this case, the proposed warping method does not diminish the correlation considerably.  Although it would seem that rank-based correlation metrics should show a substantial improvement, Spearman and Kendal's Tau correlations slightly decrease in some cases.  This is primarily due to rank disagreements over the warped constant intervals, rather than disagreements at a large scale due to the ordinal embedding.  The improved self-consistency over time of the warped signal combined with the general improvement in Pearson correlation demonstrate that the warped signal resulting from the proposed method is more suitable for use as a ground truth.
+Three baseline annotation fusions are shown, one is an average (\textit{Simple Average}) of the expert annotations, one is the maximum likelihood estimation (\textit{Distort}) from a per-annotator distortion model \cite{Gupta2016}, and the last is a time-aligned average (\textit{Eval Dep}) using evaluator-dependent time shifts \cite{Mariooryad2015}.  Our rank-based warping method is applied to each baseline using a full set of triplet comparisons from the oracle.  In all cases except for one, the warping method achieves significantly better results ($p<0.005$) when agreement is measured using Pearson correlation or normalized mutual information.  In the one outlier case, the \textit{Distort} model already approximates the objective truth extremely well because the true signal for Task B is very smooth.  In this case, the proposed warping method does not diminish the correlation considerably.  Although it would seem that rank-based correlation metrics should show a substantial improvement, Spearman and Kendal's Tau correlations slightly decrease in some cases.  This is primarily due to frame-level rank disagreements over the warped constant intervals, rather than disagreements at a large scale due to the ordinal embedding.  This is the same decrease in rank-based correlation that can occur when any non-injective function is linearly warped and thus is not unique to the proposed method.  The improved self-consistency over time of the warped signal combined with the average improvement in Pearson correlation demonstrate that the warped signal resulting from the proposed method is more suitable for use as a ground truth.
 
-Lastly, we briefly address the robustness of the proposed warping method to incomplete triplet comparisons. Even for modest numbers of constant intervals, the number of triplets required for a complete set grows cubicly.  Due to the large amount of redundancy in the triplet comparisons, only a small fraction is necessary for the warping method to approximate the objective truth well.  Figure \ref{fig:warp_correlation_robustness} shows a plot of the performance of this spatial warping approach for both incomplete triplet comparisons and partially adversarial comparisons.  In our first green value perception experiment (Task A), there are 40 extracted intervals and thus 29,640 possible comparisons.  Assuming a uniform five percent triplet comparison error rate, significant improvement over the best tested baseline method is achieved with only two percent, or about 600, randomly selected triplet comparisons.
+Lastly, we briefly address the robustness of the proposed warping method to incomplete triplet comparisons. Even for modest numbers of constant intervals, the number of triplets required for a complete set grows cubicly.  Due to the large amount of redundancy in the triplet comparisons, only a small fraction is necessary for the warping method to approximate the objective truth well.  Fig~\ref{Fig:warp_correlation_robustness} shows a plot of the performance of this spatial warping approach for both incomplete triplet comparisons and partially adversarial comparisons.  In Task A, there are 40 extracted intervals and thus 29,640 possible comparisons.  Assuming a five percent triplet comparison error rate, significant improvement over the best tested baseline method is achieved with only two percent, or about 600, randomly selected triplet comparisons.
 
-\begin{figure}
+\begin{figure}[t]
+    \begin{adjustwidth}{-2.25in}{0in}
 	\centering
-	\includegraphics[width=\columnwidth]{images/warp_correlation_robustness}
-	\caption{Plot showing Pearson correlation of the warped annotation (using Task A and the fusion from \cite{Mariooryad2015}) for different percentages of the total number of possible triplet comparisons.  Several plots are shown for varying levels of average annotation accuracy.  A high correlation is possible with a small fraction of the triplets due to large amounts of redundancy in the comparisons.}
-	\label{fig:warp_correlation_robustness}
+    \includegraphics{images/Fig7.eps}
+	\caption{Plot showing Pearson correlation of the warped annotation from Task A and the fusion from \cite{Mariooryad2015} for different percentages of the total number of possible triplet comparisons.  Several plots are shown for varying levels of average annotation accuracy.  A high correlation is possible with a small fraction of the triplets due to large amounts of redundancy in the comparisons. The black line represents the best baseline method's correlation.}
+	\label{Fig:warp_correlation_robustness}
+	\end{adjustwidth}
 \end{figure}
 
-\section{Future Work}
-There are several compelling research directions for expanding on this work which we aim to address in future papers.  The total variation denoising procedure requires careful selection of an unintuitive tunable constant to achieve desirable results.  Consideration of other problem constraints, such as the quota of annotation resources available or the required accuracy on predictions from the resulting ground truth, could be used to find a sensible value for this parameter.  The subsequent constant interval extraction step also has two parameters that could be chosen automatically from the data given some additional heuristics or constraints.  Further analysis of this method's ability to produce accurate ground truth estimates for more complex continuous annotation tasks, like 2-D dimensional affect, is another exciting avenue.  Larger reductions in the number of required triplet comparisons may also be possible using adaptive sparse sampling techniques and stochastic transitivity.
+\section*{Future Work}
+There are several compelling research directions for expanding on this work which we aim to address in future papers.  The total variation denoising procedure requires careful selection of an unintuitive tunable constant to achieve desirable results.  Consideration of other problem constraints, such as the quota of annotation resources available (budget) or the required accuracy on predictions from the resulting ground truth, could be used to find a sensible value for this parameter.  The subsequent constant interval extraction step also has two parameters that could be chosen automatically from the data given some additional heuristics or constraints.  Further analysis of this method's ability to produce accurate ground truth estimates for more complex continuous annotation tasks, like 2-D dimensional affect, is another exciting avenue.  Larger reductions in the number of required triplet comparisons may also be possible using adaptive sparse sampling techniques to pick triplets for comparison and stochastic transitivity to infer some comparisons automatically.
 
-\section{Conclusion}
+\section*{Conclusion}
 In this paper we propose a novel method for extending continuous real-time human annotation fusion approaches to generate a more accurate ground truth.  We leverage the natural ability of annotators to provide accurate similarity comparisons and propose a procedure for warping the fused annotation to better align with the target construct.  We test our approach in a mechanically simple but perceptually difficult annotation experiment where an objective truth is known and show that our approach yields a signal significantly more correlated with the objective truth even with the presence of several annotation artifacts.  We hope this method finds utility as a means for establishing a more accurate ground truth in hidden state problems where no objective truth is available \textit{a priori}.
 
-\bibliographystyle{model2-names}
+\section*{Acknowledgments}
+
+\bibliographystyle{plos2015}
 \bibliography{sample}
 
+% \begin{thebibliography}
+% \end{thebibliography}
+
 \iffalse
-\begin{table}[h!]
+\begin{table}[ht!]
 \centering
 \begin{tabularx}{\textwidth}{ |K{1in}|C|C|C|C|C|C|C|C| } 
  \hline

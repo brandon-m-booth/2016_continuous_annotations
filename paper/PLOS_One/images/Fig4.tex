@@ -1,0 +1,36 @@
+\documentclass[preview]{standalone}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{subcaption}
+
+% Matplotlib2TikZ
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.14}
+
+\begin{document}
+\begin{minipage}{19.05cm}
+    \begin{figure}
+    	\centering
+
+    	\begin{subfigure}{0.66\textwidth}
+        \input{images/Fig4a.tex}
+     	\vspace{-0.5cm}
+     	\caption{Plot of time-corrected annotation average and objective truth.}
+    	\label{Fig:4a}
+    	\end{subfigure}
+    	~
+    	\begin{subfigure}{0.66\textwidth}
+        \input{images/Fig4b.tex}
+    	\vspace{-0.5cm}
+    	\caption{Plot of TV-denoised fused annotation with extracted constant intervals.}
+    	\label{Fig:4b}
+    	\end{subfigure}
+
+    \end{figure}
+\end{minipage}
+\end{document}
+
+
+

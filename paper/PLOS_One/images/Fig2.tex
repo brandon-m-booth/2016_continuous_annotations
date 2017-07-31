@@ -1,0 +1,45 @@
+\documentclass[preview]{standalone}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{subcaption}
+
+% Matplotlib2TikZ
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.14}
+
+\begin{document}
+\begin{minipage}{19.05cm}
+\begin{figure}
+	\centering
+	\begin{subfigure}[t]{8.8cm}
+	    \centering
+	    \input{Fig2a.tex}\label{Fig2a}
+	    \caption{Task A: Ground truth}
+    \end{subfigure}
+	~
+	\begin{subfigure}[t]{8.8cm}
+    	\centering
+    	\input{Fig2b.tex}
+    	\caption{Task B: Ground truth}
+    	\label{Fig2b}
+    \end{subfigure}
+
+	\begin{subfigure}[t]{8.8cm}    
+	    \input{Fig2c.tex}
+    	\vspace{-0.5em}
+    	\caption{Task A: Real-time annotations}
+    	\label{Fig2c}
+	\end{subfigure}
+	~
+    \begin{subfigure}[t]{8.8cm}
+        \input{Fig2d.tex}
+    	\vspace{-0.5em}
+    	\caption{Task B: Real-time annotations}
+    	\label{Fig2d}
+	\end{subfigure}
+
+\end{figure}
+\end{minipage}
+\end{document}

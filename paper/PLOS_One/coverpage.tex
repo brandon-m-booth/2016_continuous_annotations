@@ -1,0 +1,129 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[top=0.85in,left=2.75in,footskip=0.75in]{geometry}
+
+%\usepackage[printwatermark]{xwatermark}
+\usepackage{framed,multirow}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb}
+\usepackage{changepage}
+\usepackage{textcomp,marvosym}
+\usepackage{cite}
+\usepackage{nameref,hyperref}
+\usepackage[left]{lineno}
+\usepackage{microtype}
+\DisableLigatures[f]{encoding = *, family = * }
+%\usepackage[table]{xcolor}
+%\usepackage{tabularx}
+%\usepackage[backend=bibtex,style=model2-names]{biblatex}
+\usepackage{subcaption}
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage[export]{adjustbox}
+
+% Matplotlib2TikZ
+\usepackage{pgfplots}
+
+% array package and thick rules for tables
+\usepackage{array}
+
+% create "+" rule type for thick vertical lines
+\newcolumntype{+}{!{\vrule width 2pt}}
+
+% create \thickcline for thick horizontal lines of variable length
+\newlength\savedwidth
+\newcommand\thickcline[1]{%
+  \noalign{\global\savedwidth\arrayrulewidth\global\arrayrulewidth 2pt}%
+  \cline{#1}%
+  \noalign{\vskip\arrayrulewidth}%
+  \noalign{\global\arrayrulewidth\savedwidth}%
+}
+
+% \thickhline command for thick horizontal lines that span the table
+\newcommand\thickhline{\noalign{\global\savedwidth\arrayrulewidth\global\arrayrulewidth 2pt}%
+\hline
+\noalign{\global\arrayrulewidth\savedwidth}}
+
+% \newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+% \newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+% \newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
+% \newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
+% \newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+
+% Formatting
+% \setlength{\parindent}{4em}
+%\setlength{\parskip}{1em}
+
+%\newcommand{\X}{\cellcolor{blue!25}} 
+%\newcolumntype{K}[1]{>{\centering\arraybackslash}p{#1}}
+%\newcolumntype{C}{>{\centering\arraybackslash}X}
+
+% Remove comment for double spacing
+\usepackage{setspace} 
+\doublespacing
+
+% Text layout
+\raggedleft
+\setlength{\parindent}{0.5cm}
+\textwidth 5.25in 
+\textheight 8.75in
+
+% Bold the 'Figure #' in the caption and separate it from the title/caption with a period
+% Captions will be left justified
+\usepackage[aboveskip=1pt,labelfont=bf,labelsep=period,justification=raggedleft,singlelinecheck=off]{caption}
+\renewcommand{\figurename}{Fig}
+
+% Remove brackets from numbering in List of References
+\makeatletter
+\renewcommand{\@biblabel}[1]{\quad#1.}
+\makeatother
+
+% Leave date blank
+\date{}
+
+\hyphenation{ra-ting}
+
+\captionsetup[figure]{labelfont=bf,textfont=bf,labelsep=period}
+\captionsetup[table]{labelfont=bf,textfont=bf,justification=centering,labelsep=period,aboveskip=2pt}
+
+\interfootnotelinepenalty=10000
+
+% Header and Footer with logo
+\usepackage{lastpage,fancyhdr,graphicx}
+\usepackage{epstopdf}
+\pagestyle{myheadings}
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{27.023pt}
+\lhead{\includegraphics[width=2.0in]{PLOS-submission.eps}}
+\rfoot{\date}
+\renewcommand{\footrule}{\hrule height 2pt \vspace{2mm}}
+\fancyheadoffset[L]{2.25in}
+\fancyfootoffset[L]{2.25in}
+
+%\newwatermark[allpages,color=red!20,angle=45,scale=3,xpos=0,ypos=0]{DRAFT}
+
+\begin{document}
+\vspace*{0.2in}
+
+% Title must be 250 characters or less.
+\begin{flushleft}
+{\Large
+\textbf\newline{Continuous real-time annotation fusion correction via rank-based spatial warping} % Please use "sentence case" for title and headings (capitalize only the first word in a title (or heading), the first word in a subtitle (or subheading), and any proper nouns).
+}
+\newline
+% Insert author names, affiliations and corresponding author email (do not include titles, positions, or degrees).
+\\
+Brandon M. Booth\textsuperscript{1},
+Karel Mundnich\textsuperscript{1},
+Shrikanth S. Narayanan\textsuperscript{1}
+\\
+\bigskip
+\textbf{1} Signal Analysis and Interpretation Lab, University of Southern California, Los Angeles, CA, USA
+\\
+\bigskip
+\end{flushleft}
+
+
+\end{document}
