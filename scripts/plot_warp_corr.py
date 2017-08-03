@@ -8,11 +8,17 @@ import sys
 import pdb
 import re
 import glob
+import matplotlib as mpl
+mpl.use('TkAgg')
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import pearsonr
 from PrettyPlotter import pretty
 from CsvFileIO import GetCsvData
+from matplotlib2tikz import save as tikz_save
+
+plot_tikz_tex_file = None
+#plot_tikz_tex_file = './test.tex'
 
 warp_file_prefix = 'gt_warped'
 warp_file_prog = re.compile(warp_file_prefix+'_(\d+)_(\d+).csv')
@@ -69,14 +75,21 @@ def PlotWarpCorrelations(input_path):
    legend_label.append('Fused Annotation\nCorrelation')
 
    ax = plt.gca()
-   ax.set_autoscale_on(False)
-   ax.axis([0,x_break, 0,1])
+   # ax.set_autoscale_on(False)
+   ax.set_autoscale_on(True)
+   ax.axis([0,x_break, 0,1], fontsize='small')
 
-   plt.xlabel('Fraction of Complete Triplet Comparisons', fontsize=24)
-   plt.ylabel('Pearson Correlation', fontsize=24)
+
+   # plt.xlabel('Fraction of Complete Triplet Comparisons', fontsize=24)
+   # plt.ylabel('Pearson Correlation', fontsize=24)
+   plt.xlabel('Fraction of Complete Triplet Comparisons')
+   plt.ylabel('Pearson Correlation')
    pretty(plt)
 
-   plt.legend(legend_label, loc='upper left', bbox_to_anchor=(1,1), frameon=False, prop={'size':24})
+   # plt.legend(legend_label, loc='upper left', bbox_to_anchor=(1,1), frameon=False, prop={'size':24})
+   plt.legend(legend_label)
+   if plot_tikz_tex_file is not None:
+      tikz_save(plot_tikz_tex_file)
    plt.show()
 
 if __name__=='__main__':

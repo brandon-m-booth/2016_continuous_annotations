@@ -8,6 +8,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from PrettyPlotter import pretty
 from CsvFileIO import GetCsvData, SaveCsvData
+from matplotlib2tikz import save as tikz_save
+
+plot_tikz_tex_file = None
+#plot_tikz_tex_file = './test.tex'
 
 def ComputeConstantIntervals(signal_csv, output_constant_csv, do_show_plot=True):
    # TODO - make these tunable
@@ -114,6 +118,8 @@ def ComputeConstantIntervals(signal_csv, output_constant_csv, do_show_plot=True)
       plt.gca().set_xlim([times[0], times[-1]])
       pretty(plt)
       plt.legend(['TV Denoised', 'Constant Intervals'], loc='upper left', bbox_to_anchor=(1,1), frameon=False, prop={'size':24})
+      if plot_tikz_tex_file is not None:
+         tikz_save(plot_tikz_tex_file)
       plt.show()
 
    SaveCsvData(output_constant_csv, None, constant_intervals)
