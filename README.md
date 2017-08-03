@@ -8,9 +8,14 @@ Booth B, Mundnich K, Narayanan S. Continuous real-time annotation fusion correct
 
 From the scripts subfolder run this in a shell:
 
-* python run_pipeline.py -p
+- python run_pipeline.py -p
 
-This runs all of the steps explained in the paper and generates and caches all of the intermediate stages of the pipeline.  You must have matlab installed and added to the system path so it can be run from the command line.  If you do not want to see plots of intermediate results, omit the "-p" flag.
+This runs all of the steps explained in the paper and generates and caches all of the intermediate stages of the pipeline.  If you do not want to see plots of intermediate results, omit the "-p" flag.
+
+### Prerequisites
+
+- Matlab must be installed a runnable from a shell.  Make sure the matlab executable folder is in the system path.
+- TFOCS library requires Matlab R2013b.  If you run with a later version of matlab, you will see errors.
 
 ## Other Notes
 
