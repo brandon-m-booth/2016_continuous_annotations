@@ -7,14 +7,18 @@ import pdb
 import math
 import numpy as np
 import pandas as pd
+# import matplotlib as mpl
+# mpl.use('TkAgg')
 import matplotlib.pyplot as plt
 from pretty_plotter import pretty
+from matplotlib2tikz import save as tikz_save
 
 def ComputeConstantIntervals(signal_csv, output_constant_csv, do_show_plot=True):
    max_height_threshold = 0.003
    min_const_frames = 18
     
    signal = pd.read_csv(signal_csv).as_matrix().astype(float)
+   # signal = pd.read_csv(signal_csv).as_matrix().astype(float)[0:-1:30]
 
    if signal.ndim != 1 and (signal.ndim != 2 or min(signal.shape) != 1):
       print 'Input signal must be one dimensional.  Exiting...'
@@ -111,7 +115,8 @@ def ComputeConstantIntervals(signal_csv, output_constant_csv, do_show_plot=True)
       pretty(plt)
       plt.legend(['TV Denoised', 'Constant Intervals'], loc='upper left', bbox_to_anchor=(1,1), frameon=False, prop={'size':24})
       plt.savefig('./test.svg', transparent=True)
-      plt.show()
+      # plt.show()
+      tikz_save('mytikz.tex')
 
    with open(output_constant_csv, 'wb') as outfile:
       csv_writer = csv.writer(outfile)

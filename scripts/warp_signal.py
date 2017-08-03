@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from pretty_plotter import pretty
+from matplotlib2tikz import save as tikz_save
 
 do_show_plot = True
 
@@ -30,7 +31,7 @@ def GetWildcardMatch(wildcard_str, inflated_str):
       return wildcard_str
 
 
-def DoWarpSignal(signal_csv, intervals_csv, interval_values_glob, objective_csv, output_file):
+def DoWarpSignal(signal_csv, intervals_csv, interval_values_glob, objective_csv, output_file, sampling_rate = 30.0):
    if not os.path.isdir(os.path.basename(output_file)):
       os.makedirs(os.path.basename(output_file))
 
@@ -94,40 +95,42 @@ def DoWarpSignal(signal_csv, intervals_csv, interval_values_glob, objective_csv,
          else:
             current_frame = len(signal)
 
-      sampling_rate = 30.0
-      ot_signal = pd.read_csv(objective_csv, header=None).as_matrix()
-      plt.plot(np.array(range(0,len(ot_signal)))/sampling_rate, ot_signal, 'm-', linewidth=4)
+            ot_signal = pd.read_csv(objective_csv, header=None).as_matrix()
+            plt.plot(ot_signal[0:-1:sampling_rate], 'm-', linewidth=4)
 
-      # Plot the results
-      if do_show_plot:
-         plt.plot(np.array(range(0,len(signal)))/sampling_rate, signal, 'c--')
-         plt.xlabel('Time(s)', fontsize=24)
-         plt.ylabel('Green Value', fontsize=24)
+            # Plot the results
+            if do_show_plot:
+               plt.plot(signal[0:-1:sampling_rate], 'c--', linewidth=4)
+               plt.xlabel('Time [s]')
+               plt.ylabel('Green intentisty value')
 
-         intervals = pd.read_csv(intervals_csv, header=None).as_matrix()
-         for i in range(intervals.shape[0]):
-            interval = intervals[i]/sampling_rate
-            values = 2*[interval_values[i]]
-            if i > 0:
-               plt.plot(interval, values, 'g-o', label='_nolegend_')
+               intervals = pd.read_csv(intervals_csv, header=None).as_matrix()
+               for i in range(intervals.shape[0]):
+                  interval = intervals[i]/sampling_rate
+                  values = 2*[interval_values[i]]
+                  if i > 0:
+                     plt.plot(interval, values, 'g-o', label='_nolegend_')
+                  else:
+                     plt.plot(interval, values, 'g-o')
+
+               plt.plot(warped_signal[0:-1:sampling_rate], 'r-')
+               
+               pretty(plt)
+
+               plt.axis([0,300,0,1])
+               legend_list = ['Objective Truth', 'Average Signal', 'Embedded Intervals', 'Warped Signal']
+               plt.legend(legend_list, loc='upper left', bbox_to_anchor=(1,1), frameon=False, prop={'size':24})
+               plt.show()
+               # tikz_save('mytikz.tex')
+
+            if '*' in output_file:
+               wildcard_match = GetWildcardMatch(interval_values_glob, interval_values_csv)
+               outfile = output_file.replace('*', wildcard_match)
             else:
-               plt.plot(interval, values, 'g-o')
+               outfile = output_file
+            np.savetxt(outfile, warped_signal, delimiter=',')
 
-         plt.plot(np.array(range(0,len(warped_signal)))/sampling_rate, warped_signal, 'r-')
-         
-         pretty(plt)
-
-         plt.axis([0,300,0,1])
-         legend_list = ['Objective Truth', 'Average Signal', 'Embedded Intervals', 'Warped Signal']
-         plt.legend(legend_list, loc='upper left', bbox_to_anchor=(1,1), frameon=False, prop={'size':24})
-         plt.show()
-
-      if '*' in output_file:
-         wildcard_match = GetWildcardMatch(interval_values_glob, interval_values_csv)
-         outfile = output_file.replace('*', wildcard_match)
-      else:
-         outfile = output_file
-      np.savetxt(outfile, warped_signal, delimiter=',')
+   return ot_signal, signal, warped_signal
 
 if __name__=='__main__':
    if len(sys.argv) > 5:

@@ -3,10 +3,13 @@ import os
 import sys
 import pdb
 import glob
+import matplotlib as mpl
+mpl.use('TkAgg')
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from pretty_plotter import pretty
+from matplotlib2tikz import save as tikz_save
 
 def PlotAnnotationsAndGroundTruth(annotations_folder, ground_truth_csv_path):
    annotation_files = glob.glob(os.path.join(annotations_folder,'*.csv'))
@@ -17,21 +20,25 @@ def PlotAnnotationsAndGroundTruth(annotations_folder, ground_truth_csv_path):
       annotation_file = annotation_files[idx]
       annotation_sig_dataframe = pd.read_csv(annotation_file)
       annotation_sig = annotation_sig_dataframe.as_matrix()
-      plt.plot(annotation_sig[:,0], annotation_sig[:,1])
+      # plt.plot(annotation_sig[:,0], annotation_sig[:,1])
+      plt.plot(annotation_sig[0:-1:30,0], annotation_sig[0:-1:30,1]) # slices version for better use of memory in TikZ
 
-   plt.plot(gt_objective[:,0], gt_objective[:,1], 'm-', linewidth=4)
-   
-   plt.xlabel('Time(s)', fontsize=24)
-   plt.ylabel('Green Value', fontsize=24)
+   # plt.plot(gt_objective[:,0], gt_objective[:,1], 'm-', linewidth=4)
+
+   # plt.xlabel('Time(s)', fontsize=24)
+   plt.xlabel('Time [s]')
+   # plt.ylabel('Green Value', fontsize=24)
+   plt.ylabel('Green intensity value')
 
    pretty(plt)
 
    legend_list = []
    for idx in range(len(annotation_files)):
       legend_list.append('Annotator %d'%(idx+1))
-   plt.legend(legend_list+['Objective Truth'], loc='upper left', bbox_to_anchor=(1,1), frameon=False, prop={'size':24})
+   # plt.legend(legend_list+['Objective Truth'], loc='upper left', bbox_to_anchor=(1,1), frameon=False, prop={'size':24})
 
-   plt.show()
+   tikz_save('mytikz.tex')
+   # plt.show()
 
 if __name__=='__main__':
    if len(sys.argv) > 2:
