@@ -14,8 +14,8 @@ This runs all of the steps explained in the paper and generates and caches all o
 
 ### Prerequisites
 
-- Matlab must be installed a runnable from a shell.  Make sure the matlab executable folder is in the system path.
-- TFOCS library requires Matlab R2013b.  If you run with a later version of matlab, you will see errors.
+- Matlab must be installed and runnable from a shell.  Make sure the matlab executable folder is in the system path
+- The TFOCS library has been tested in this codebase with Matlab 2013b and 2014b.  If you run with a later version of matlab, you may see errors
 - Python's matplotlib2tikz library
   - sudo -H pip install matplotlib2tikz
 

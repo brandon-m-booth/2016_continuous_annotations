@@ -37,6 +37,7 @@ def RunPipeline(do_show_plots):
 
    # Run Matlab script to generate baseline ground truths and TV denoise them.
    # The tasks, gt names, and frequencies are specified in the matlab script
+   print('Generating ground truth baselines and TV denoised signals...')
    matlab_pipeline_func = 'run_pipeline_gt_tv'
    subprocess.call(['matlab', '-nosplash -nodesktop -r '+matlab_pipeline_func])
 
@@ -51,10 +52,12 @@ def RunPipeline(do_show_plots):
             # Compute constant intervals from the TV-denoised signals
             tv_file_path = os.path.join(output_dir, tv_file_name)
             output_constant_csv = os.path.join(output_dir, constant_intervals_file_name)
+            print('Computing constant intervals: '+task+', '+ground_truth_name+', '+str(frequency)+' hz');
             ComputeConstantIntervals(tv_file_path, output_constant_csv, do_show_plot=do_show_plots)
 
    # Run Matlab script to construct an embedding from simulated triplets
    # The tasks, gt names, and frequencies are specified in the matlab script
+   print('Generating embedding over constant intervals in the signal...')
    matlab_embedding_func = 'run_pipeline_embedding'
    subprocess.call(['matlab', '-nosplash -nodesktop -r '+matlab_embedding_func])
 
@@ -73,9 +76,11 @@ def RunPipeline(do_show_plots):
             constant_intervals_file_path = os.path.join(output_dir, constant_intervals_file_name)
             intervals_embedding_file_path = os.path.join(output_dir, intervals_embedding_file_name)
             warped_signal_file_path = os.path.join(output_dir, warped_signal_file_name)
+            print('Warping baseline fused signal using interval embedding: '+task+', '+ground_truth_name+', '+str(frequency)+' hz');
             DoWarpSignal(ground_truth_file_path, constant_intervals_file_path, intervals_embedding_file_path, obj_truth_file_path, warped_signal_file_path, do_show_plot=do_show_plots)
             
 
+   print('Finished!')
    return
 
 if __name__=='__main__':
