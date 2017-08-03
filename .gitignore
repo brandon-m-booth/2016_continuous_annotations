@@ -12,3 +12,4 @@ images/*
 **.swp
 **.pyc
 **.mat
+**Task*.bag
