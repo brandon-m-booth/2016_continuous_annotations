@@ -38,7 +38,7 @@ def RunPipeline(do_show_plots):
    # Run Matlab script to generate baseline ground truths and TV denoise them.
    # The tasks, gt names, and frequencies are specified in the matlab script
    matlab_pipeline_func = 'run_pipeline_gt_tv'
-   subprocess.call(['matlab', '-r '+matlab_pipeline_func])
+   subprocess.call(['matlab', '-nosplash -nodesktop -r '+matlab_pipeline_func])
 
    # Extract constant intervals
    for task in tasks:
@@ -56,7 +56,7 @@ def RunPipeline(do_show_plots):
    # Run Matlab script to construct an embedding from simulated triplets
    # The tasks, gt names, and frequencies are specified in the matlab script
    matlab_embedding_func = 'run_pipeline_embedding'
-   subprocess.call(['matlab', '-r '+matlab_embedding_func])
+   subprocess.call(['matlab', '-nosplash -nodesktop -r '+matlab_embedding_func])
 
    # Warp the baseline ground truth signals according to the interval embedding
    for task in tasks:
