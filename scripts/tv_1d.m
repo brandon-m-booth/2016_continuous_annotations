@@ -1,10 +1,5 @@
-% BB - Run this first:
-% addpath('/USC/Tools/TFOCS-1.4/');
-
-function [tv_sig, error] = tv_1d(sig)
-    % User-defined hyper-parameters
-    EPS = 10.5;
-    lambda = 0.05;
+function [tv_sig, error] = tv_1d(sig, lambda, eps)
+    addpath([cd '/tools/TFOCS-1.4/']);
     
     A = eye(length(sig));
     b = sig;
@@ -21,5 +16,5 @@ function [tv_sig, error] = tv_1d(sig)
     normW = linop_TV(size(sig), [], 'norm');
     opts.normW2 = normW^2;
     z0 = [];   % we don't have a good guess for the dual
-    [ tv_sig, error, optsOut ] = solver_sBPDN_W(A, W, b, EPS, mu, x0(:), z0, opts);
+    [ tv_sig, error, optsOut ] = solver_sBPDN_W(A, W, b, eps, mu, x0(:), z0, opts);
 end

@@ -5,10 +5,8 @@ import pdb
 import glob
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
+from CsvFileIO import GetCsvData, SaveCsvData
 from pretty_plotter import pretty
-
-do_show_plot = True
 
 def RemoveIntervalOverlap(intervals):
    last_end_idx = -1
@@ -30,15 +28,20 @@ def GetWildcardMatch(wildcard_str, inflated_str):
       return wildcard_str
 
 
-def DoWarpSignal(signal_csv, intervals_csv, interval_values_glob, objective_csv, output_file):
+def DoWarpSignal(signal_csv, intervals_csv, interval_values_glob, objective_csv, output_file, do_show_plot=True):
    if not os.path.isdir(os.path.basename(output_file)):
       os.makedirs(os.path.basename(output_file))
 
    interval_values_globs = glob.glob(interval_values_glob)
    for interval_values_csv in interval_values_globs:
-      signal = pd.read_csv(signal_csv, header=None).as_matrix()
-      intervals = pd.read_csv(intervals_csv, header=None).as_matrix()
-      interval_values = pd.read_csv(interval_values_csv, header=None).as_matrix()
+      signal_header, signal = GetCsvData(signal_csv)
+      dummy_header, intervals = GetCsvData(intervals_csv, first_line_header=False)
+      dummy_header, interval_values = GetCsvData(interval_values_csv, first_line_header=False)
+
+      # Separate times from signal
+      times = signal[:,0]
+      signal = signal[:,1]
+      sampling_rate = 1.0/(times[1]-times[0])
 
       # For each interval, compute the average signal value
       signal_mean = np.zeros(intervals.shape[0])
@@ -94,17 +97,20 @@ def DoWarpSignal(signal_csv, intervals_csv, interval_values_glob, objective_csv,
          else:
             current_frame = len(signal)
 
-      sampling_rate = 30.0
-      ot_signal = pd.read_csv(objective_csv, header=None).as_matrix()
-      plt.plot(np.array(range(0,len(ot_signal)))/sampling_rate, ot_signal, 'm-', linewidth=4)
+      # Add time columns back
+      signal = np.array((times, signal)).T
+      warped_signal = np.array((times, warped_signal)).T
 
       # Plot the results
       if do_show_plot:
-         plt.plot(np.array(range(0,len(signal)))/sampling_rate, signal, 'c--')
+         ot_header, ot_signal = GetCsvData(objective_csv)
+         plt.plot(ot_signal[:,0], ot_signal[:,1], 'm-', linewidth=4)
+
+         plt.plot(signal[:,0], signal[:,1], 'c--')
          plt.xlabel('Time(s)', fontsize=24)
          plt.ylabel('Green Value', fontsize=24)
 
-         intervals = pd.read_csv(intervals_csv, header=None).as_matrix()
+         dummy_header, intervals = GetCsvData(intervals_csv, first_line_header=False)
          for i in range(intervals.shape[0]):
             interval = intervals[i]/sampling_rate
             values = 2*[interval_values[i]]
@@ -113,11 +119,11 @@ def DoWarpSignal(signal_csv, intervals_csv, interval_values_glob, objective_csv,
             else:
                plt.plot(interval, values, 'g-o')
 
-         plt.plot(np.array(range(0,len(warped_signal)))/sampling_rate, warped_signal, 'r-')
+         plt.plot(warped_signal[:,0], warped_signal[:,1], 'r-')
          
          pretty(plt)
 
-         plt.axis([0,300,0,1])
+         plt.axis([times[0],times[-1],0,1])
          legend_list = ['Objective Truth', 'Average Signal', 'Embedded Intervals', 'Warped Signal']
          plt.legend(legend_list, loc='upper left', bbox_to_anchor=(1,1), frameon=False, prop={'size':24})
          plt.show()
@@ -127,7 +133,8 @@ def DoWarpSignal(signal_csv, intervals_csv, interval_values_glob, objective_csv,
          outfile = output_file.replace('*', wildcard_match)
       else:
          outfile = output_file
-      np.savetxt(outfile, warped_signal, delimiter=',')
+
+      SaveCsvData(outfile, ['Time_sec','Data'], warped_signal)
 
 if __name__=='__main__':
    if len(sys.argv) > 5:

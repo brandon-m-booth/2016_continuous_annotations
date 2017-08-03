@@ -1,27 +1,29 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 import os
 import sys
-import csv
 import pdb
 import math
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 from pretty_plotter import pretty
+from CsvFileIO import GetCsvData, SaveCsvData
 
 def ComputeConstantIntervals(signal_csv, output_constant_csv, do_show_plot=True):
+   # TODO - make these tunable
    max_height_threshold = 0.003
    min_const_frames = 18
     
-   signal = pd.read_csv(signal_csv).as_matrix().astype(float)
-
-   if signal.ndim != 1 and (signal.ndim != 2 or min(signal.shape) != 1):
+   # Data format checking
+   csv_header, csv_data = GetCsvData(signal_csv)
+   if csv_data.ndim == 1:
+      signal = csv_data.flatten()
+   elif csv_data.ndim == 2 and 'time' in csv_header[0].lower():
+      signal = csv_data[:,1].flatten()
+   else:
       print 'Input signal must be one dimensional.  Exiting...'
       return
 
-   signal = signal.flatten()
-   
    # Scan the signal looking for potential constant intervals
    constant_intervals = None
    left_edge_idx = None
@@ -113,10 +115,9 @@ def ComputeConstantIntervals(signal_csv, output_constant_csv, do_show_plot=True)
       plt.savefig('./test.svg', transparent=True)
       plt.show()
 
-   with open(output_constant_csv, 'wb') as outfile:
-      csv_writer = csv.writer(outfile)
-      csv_writer.writerows(constant_intervals)
-   
+   SaveCsvData(output_constant_csv, None, constant_intervals)
+   return
+
 
 if __name__=='__main__':
    if len(sys.argv) > 2:

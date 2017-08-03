@@ -51,7 +51,7 @@ def GetCsvData(file_path, first_line_header=True):
                
    return (header, data)
 
-def SaveCsvData(header, data, file_path):
+def SaveCsvData(file_path, header, data):
    with open(file_path, 'wb') as csvfile:
       csvwriter = csv.writer(csvfile, delimiter=',')
       if header is not None:
