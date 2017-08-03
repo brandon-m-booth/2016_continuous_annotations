@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 import os
 import sys
 import pdb
@@ -6,7 +6,7 @@ import glob
 import matplotlib.pyplot as plt
 import numpy as np
 from CsvFileIO import GetCsvData, SaveCsvData
-from pretty_plotter import pretty
+from PrettyPlotter import pretty
 
 def RemoveIntervalOverlap(intervals):
    last_end_idx = -1
@@ -29,14 +29,15 @@ def GetWildcardMatch(wildcard_str, inflated_str):
 
 
 def DoWarpSignal(signal_csv, intervals_csv, interval_values_glob, objective_csv, output_file, do_show_plot=True):
-   if not os.path.isdir(os.path.basename(output_file)):
-      os.makedirs(os.path.basename(output_file))
+   if not os.path.isdir(os.path.split(output_file)[0]):
+      os.makedirs(os.path.split(output_file)[0])
 
    interval_values_globs = glob.glob(interval_values_glob)
    for interval_values_csv in interval_values_globs:
       signal_header, signal = GetCsvData(signal_csv)
       dummy_header, intervals = GetCsvData(intervals_csv, first_line_header=False)
       dummy_header, interval_values = GetCsvData(interval_values_csv, first_line_header=False)
+      intervals = intervals.astype(int)
 
       # Separate times from signal
       times = signal[:,0]
@@ -108,7 +109,7 @@ def DoWarpSignal(signal_csv, intervals_csv, interval_values_glob, objective_csv,
 
          plt.plot(signal[:,0], signal[:,1], 'c--')
          plt.xlabel('Time(s)', fontsize=24)
-         plt.ylabel('Green Value', fontsize=24)
+         plt.ylabel('Green Intensity', fontsize=24)
 
          dummy_header, intervals = GetCsvData(intervals_csv, first_line_header=False)
          for i in range(intervals.shape[0]):

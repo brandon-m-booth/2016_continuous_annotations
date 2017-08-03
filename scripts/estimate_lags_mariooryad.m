@@ -1,14 +1,9 @@
-function [mariooryad_lags] = estimate_lags_mariooryad(annotations, feature_sequences, label_sequences)
-    close all;
-    clc;
+function [mariooryad_lags] = estimate_lags_mariooryad(annotations, feature_sequences, label_sequences, max_lag_frames)
     warning('off','stats:gmdistribution:MissingData');
 
     addpath('/usr/local/MATLAB/custom_toolbox/PRMLT/chapter01')
     addpath(genpath([cd '/mariooryad_lag_estimation']))
     addpath(genpath([cd '/tools/SLMtools']))
-
-    sample_rate = 30; % Hertz
-    max_lag_frames = 10*sample_rate;
 
     if ~isempty(feature_sequences)
         % BB - Due to sampling issues, the labels sequences are

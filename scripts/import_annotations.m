@@ -43,7 +43,7 @@ function [annotations, label_sequences] = import_annotations(task_name, frequenc
         % Create a label sequences variable (some methods need the data
         % presented in this way)
         label_sequences = cell(0);
-        for i=1:size(annotations,1)
+        for subject_id=1:num_subjects
             label_sequences{length(label_sequences)+1} = annotations(subject_id,:)';
         end
     end

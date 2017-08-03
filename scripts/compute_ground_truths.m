@@ -6,8 +6,9 @@ function ground_truth = compute_ground_truths(task_name, ground_truth_name, freq
     
     elseif strcmp(ground_truth_name,'eval_dep')
         addpath(genpath([cd '/mariooryad_lag_estimation']))
-        feature_sequences = get_features(task_name);
-        mariooryad_lags = estimate_lags_mariooryad(annotations, feature_sequences, label_sequences);
+        feature_sequences = get_features(task_name, frequency);
+        max_lag_frames = 10*frequency;
+        mariooryad_lags = estimate_lags_mariooryad(annotations, feature_sequences, label_sequences, max_lag_frames);
         shifted_labels = cell(1,length(label_sequences));
         min_length = inf;
         for label_seq_idx = 1:length(label_sequences)
@@ -29,7 +30,7 @@ function ground_truth = compute_ground_truths(task_name, ground_truth_name, freq
 
     elseif strcmp(ground_truth_name,'distort')
         addpath(genpath([cd '/gupta_fusion']))
-        feature_sequences = get_features(task_name);
+        feature_sequences = get_features(task_name, frequency);
         ground_truth = gupta_fusion(annotations, feature_sequences);
         
     elseif strcmp(ground_truth_name, 'ctw')

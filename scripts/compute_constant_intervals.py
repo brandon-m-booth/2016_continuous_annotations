@@ -6,7 +6,7 @@ import pdb
 import math
 import numpy as np
 import matplotlib.pyplot as plt
-from pretty_plotter import pretty
+from PrettyPlotter import pretty
 from CsvFileIO import GetCsvData, SaveCsvData
 
 def ComputeConstantIntervals(signal_csv, output_constant_csv, do_show_plot=True):
@@ -17,8 +17,10 @@ def ComputeConstantIntervals(signal_csv, output_constant_csv, do_show_plot=True)
    # Data format checking
    csv_header, csv_data = GetCsvData(signal_csv)
    if csv_data.ndim == 1:
+      times = range(len(signal))
       signal = csv_data.flatten()
    elif csv_data.ndim == 2 and 'time' in csv_header[0].lower():
+      times = csv_data[:,0]
       signal = csv_data[:,1].flatten()
    else:
       print 'Input signal must be one dimensional.  Exiting...'
@@ -103,16 +105,15 @@ def ComputeConstantIntervals(signal_csv, output_constant_csv, do_show_plot=True)
       
    # Plot the results
    if do_show_plot:
-      plt.plot(np.array(range(len(signal)))/30.0, signal, color='black', linestyle='-.')
+      plt.plot(times, signal, color='black', linestyle='-.')
       for interval in constant_intervals:
-         plt.plot(np.array(interval)/30.0, signal[interval], 'g-o')
+         plt.plot(times[interval], signal[interval], 'g-o')
 
       plt.xlabel('Time(s)', fontsize=24)
-      plt.ylabel('Green Value', fontsize=24)
-      plt.gca().set_xlim([0,len(signal)/30])
+      plt.ylabel('Green Intensity', fontsize=24)
+      plt.gca().set_xlim([times[0], times[-1]])
       pretty(plt)
       plt.legend(['TV Denoised', 'Constant Intervals'], loc='upper left', bbox_to_anchor=(1,1), frameon=False, prop={'size':24})
-      plt.savefig('./test.svg', transparent=True)
       plt.show()
 
    SaveCsvData(output_constant_csv, None, constant_intervals)

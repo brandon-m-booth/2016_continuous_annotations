@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 import os
+import sys
+import pdb
 import subprocess
 from compute_constant_intervals import ComputeConstantIntervals
 from warp_signal import DoWarpSignal
@@ -22,7 +24,7 @@ def GetObjectiveTruthFilePath(task, frequency):
    obj_file_path = os.path.join(scripts_path, '../'+task+'/AnnotationData/objective_truth/', obj_file_name)
    return obj_file_path
 
-def RunPipeline():
+def RunPipeline(do_show_plots):
    # Note: We ignore the 'distort' baseline because this ground truth estimate fills a tiny
    # portion of the full [0,1] output range.  TV denoising is tuned to signals that fill
    # the range.
@@ -49,7 +51,7 @@ def RunPipeline():
             # Compute constant intervals from the TV-denoised signals
             tv_file_path = os.path.join(output_dir, tv_file_name)
             output_constant_csv = os.path.join(output_dir, constant_intervals_file_name)
-            ComputeConstantIntervals(tv_file_path, output_constant_csv, do_show_plot=False)
+            ComputeConstantIntervals(tv_file_path, output_constant_csv, do_show_plot=do_show_plots)
 
    # Run Matlab script to construct an embedding from simulated triplets
    # The tasks, gt names, and frequencies are specified in the matlab script
@@ -71,10 +73,14 @@ def RunPipeline():
             constant_intervals_file_path = os.path.join(output_dir, constant_intervals_file_name)
             intervals_embedding_file_path = os.path.join(output_dir, intervals_embedding_file_name)
             warped_signal_file_path = os.path.join(output_dir, warped_signal_file_name)
-            DoWarpSignal(ground_truth_file_path, constant_intervals_file_path, intervals_embedding_file_path, obj_truth_file_path, warped_signal_file_path, do_show_plot=True)
+            DoWarpSignal(ground_truth_file_path, constant_intervals_file_path, intervals_embedding_file_path, obj_truth_file_path, warped_signal_file_path, do_show_plot=do_show_plots)
             
 
    return
 
 if __name__=='__main__':
-   RunPipeline()
+   show_plots=False
+   if len(sys.argv) > 1:
+      if '-p' in str(sys.argv[1]).lower():
+         show_plots=True
+   RunPipeline(show_plots)

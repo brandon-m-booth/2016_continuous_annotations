@@ -1,4 +1,8 @@
-#!/usr/bin/python
+#!/usr/bin/env python
+
+###########################################
+# WARNING - This code is old and deprecated
+###########################################
 import os
 import sys
 import pdb
@@ -6,9 +10,9 @@ import re
 import glob
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
 from scipy.stats import pearsonr
-from pretty_plotter import pretty
+from PrettyPlotter import pretty
+from CsvFileIO import GetCsvData
 
 warp_file_prefix = 'gt_warped'
 warp_file_prog = re.compile(warp_file_prefix+'_(\d+)_(\d+).csv')

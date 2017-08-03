@@ -1,28 +1,26 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 import os
 import sys
 import pdb
 import glob
-import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
-from pretty_plotter import pretty
+import matplotlib.pyplot as plt
+from PrettyPlotter import pretty
+from CsvFileIO import GetCsvData
 
 def PlotAnnotationsAndGroundTruth(annotations_folder, ground_truth_csv_path):
    annotation_files = glob.glob(os.path.join(annotations_folder,'*.csv'))
-   gt_objective_dataframe = pd.read_csv(ground_truth_csv_path)
-   gt_objective = gt_objective_dataframe.as_matrix()
+   gt_header, gt_data = GetCsvData(ground_truth_csv_path, first_line_header=True)
 
    for idx in range(len(annotation_files)):
       annotation_file = annotation_files[idx]
-      annotation_sig_dataframe = pd.read_csv(annotation_file)
-      annotation_sig = annotation_sig_dataframe.as_matrix()
-      plt.plot(annotation_sig[:,0], annotation_sig[:,1])
+      dummy_header, annotation_sig_data = GetCsvData(annotation_file, first_line_header=True)
+      plt.plot(annotation_sig_data[:,0], annotation_sig_data[:,1])
 
-   plt.plot(gt_objective[:,0], gt_objective[:,1], 'm-', linewidth=4)
+   plt.plot(gt_data[:,0], gt_data[:,1], 'm-', linewidth=4)
    
    plt.xlabel('Time(s)', fontsize=24)
-   plt.ylabel('Green Value', fontsize=24)
+   plt.ylabel('Green Intensity', fontsize=24)
 
    pretty(plt)
 
