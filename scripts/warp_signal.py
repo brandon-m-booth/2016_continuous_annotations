@@ -9,6 +9,9 @@ from CsvFileIO import GetCsvData, SaveCsvData
 from PrettyPlotter import pretty
 from matplotlib2tikz import save as tikz_save
 
+plot_tikz_tex_file = None
+#plot_tikz_tex_file = './test.tex'
+
 def RemoveIntervalOverlap(intervals):
    last_end_idx = -1
    for i in range(intervals.shape[0]):
