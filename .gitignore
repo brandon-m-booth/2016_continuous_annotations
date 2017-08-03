@@ -1,10 +1,7 @@
-annotation_bags/*
-stitched_bags/*
-bags/
-images/*
-*.csv
+**pipeline_results/
 **.RData
 **.aux
+**.bag
 **.bbl
 **.blg
 **.log
@@ -12,4 +9,3 @@ images/*
 **.swp
 **.pyc
 **.mat
-**Task*.bag
