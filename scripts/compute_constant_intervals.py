@@ -13,11 +13,7 @@ from matplotlib2tikz import save as tikz_save
 plot_tikz_tex_file = None
 #plot_tikz_tex_file = './test.tex'
 
-def ComputeConstantIntervals(signal_csv, output_constant_csv, do_show_plot=True):
-   # TODO - make these tunable
-   max_height_threshold = 0.003
-   min_const_frames = 18
-    
+def ComputeConstantIntervals(signal_csv, output_constant_csv, max_height_threshold=0.003, min_const_frames=18, do_show_plot=True):
    # Data format checking
    csv_header, csv_data = GetCsvData(signal_csv)
    if csv_data.ndim == 1:

@@ -25,11 +25,9 @@ def GetObjectiveTruthFilePath(task, frequency):
    return obj_file_path
 
 def RunPipeline(do_show_plots):
-   # Note: We ignore the 'distort' baseline because this ground truth estimate fills a tiny
-   # portion of the full [0,1] output range.  TV denoising is tuned to signals that fill
-   # the range.
    tasks = ['TaskA', 'TaskB']
-   ground_truth_names = ['simple_average', 'eval_dep']
+   ground_truth_names = ['simple_average', 'eval_dep', 'distort']
+   constant_interval_param_list = [(0.003,17), (0.003,17), (0.003, 17)]
    frequencies = [10]
 
    scripts_path = os.path.dirname(os.path.realpath(__file__))
@@ -44,7 +42,9 @@ def RunPipeline(do_show_plots):
    # Extract constant intervals
    for task in tasks:
       output_dir = GetOutputDir(task)
-      for ground_truth_name in ground_truth_names:
+      for i in range(len(ground_truth_names)):
+         ground_truth_name = ground_truth_names[i]
+         constant_interval_params = constant_interval_param_list[i]
          for frequency in frequencies:
             tv_file_name = ground_truth_name+'_tv_'+str(frequency)+'hz.csv'
             constant_intervals_file_name = ground_truth_name+'_constant_intervals_'+str(frequency)+'hz.csv'
@@ -53,7 +53,7 @@ def RunPipeline(do_show_plots):
             tv_file_path = os.path.join(output_dir, tv_file_name)
             output_constant_csv = os.path.join(output_dir, constant_intervals_file_name)
             print('Computing constant intervals: '+task+', '+ground_truth_name+', '+str(frequency)+' hz');
-            ComputeConstantIntervals(tv_file_path, output_constant_csv, do_show_plot=do_show_plots)
+            ComputeConstantIntervals(tv_file_path, output_constant_csv, do_show_plot=do_show_plots, *constant_interval_params)
 
    # Run Matlab script to construct an embedding from simulated triplets
    # The tasks, gt names, and frequencies are specified in the matlab script

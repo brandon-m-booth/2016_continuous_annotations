@@ -1,6 +1,6 @@
 function run_pipeline_embedding()
    tasks = {'TaskA', 'TaskB'};
-   ground_truths = {'simple_average', 'eval_dep'};
+   ground_truths = {'simple_average', 'eval_dep', 'distort'};
    frequencies = [10.0];
 
    generate_embedding(tasks, ground_truths, frequencies);

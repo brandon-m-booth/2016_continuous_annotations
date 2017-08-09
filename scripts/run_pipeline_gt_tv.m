@@ -1,10 +1,12 @@
 function run_pipeline_gt_tv()
    tasks = {'TaskA', 'TaskB'};
    ground_truths = {'simple_average', 'eval_dep', 'distort'};
+   tv_params = [0.05, 0.05, 0.05];
+   eps_params = [10.5, 10.5, 10.5];
    frequencies = [10.0];
 
    generate_ground_truth_baselines(tasks, ground_truths, frequencies)
-   generate_tv_baselines(tasks, ground_truths, frequencies)
+   generate_tv_baselines(tasks, ground_truths, frequencies, tv_params, eps_params)
    
    exit; % This scripts is intended to be executed from am external shell
 end
@@ -40,9 +42,12 @@ function generate_ground_truth_baselines(tasks, ground_truths, frequencies)
    end
 end
 
-function generate_tv_baselines(tasks, ground_truths, frequencies)
+function generate_tv_baselines(tasks, ground_truths, frequencies, tv_params, eps_params)
    for task=tasks
-      for ground_truth=ground_truths
+      for i=1:length(ground_truths)
+         ground_truth = ground_truths(i);
+         tv_param = tv_params(i);
+         eps_param = eps_params(i);
          for freq=frequencies
             gt_file_path = get_ground_truth_file_path(task, ground_truth, freq);
             tv_file_path = strcat(get_output_folder(task),char(ground_truth),'_tv_',num2str(freq),'hz.csv');
@@ -51,7 +56,7 @@ function generate_tv_baselines(tasks, ground_truths, frequencies)
                header = gt_data(1,:);
                times = str2num(char(gt_data(2:end,1)));
                gt_data = str2num(char(gt_data(2:end,2)));
-               tv = tv_1d(gt_data, 0.05, 10.5);
+               tv = tv_1d(gt_data, tv_param, eps_param);
                time_tv_mat = [times,tv];
                write_csv_file(tv_file_path, time_tv_mat, header);
             end

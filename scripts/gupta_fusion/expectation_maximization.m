@@ -3,7 +3,7 @@ function [a_star, sigma_m, theta, t_k, sigma_k, counter, features_mat] = expecta
 % This is the main program that runs the hard EM algorithm to estimate the
 % latent ground truth and annotator parameters
     
-    max_iters = 2000;
+    max_iters = 55;
     data=4;
     if data == 1
         data_dir = '../../Data/synthetic/matfiles/Independent/';
@@ -44,7 +44,7 @@ function [a_star, sigma_m, theta, t_k, sigma_k, counter, features_mat] = expecta
     m = numel(uniq_files);   % number of files
     d = size(annotations_mat{1}, 2); % number of annotations per data point
     p = size(features_mat{1}, 2); % number of features per data point
-    W=8; % causal DTI window
+    W=32; % causal DTI window
     oldPData = 100000;
     eps = 1e-4; 
 
@@ -112,6 +112,8 @@ function [a_star, sigma_m, theta, t_k, sigma_k, counter, features_mat] = expecta
             break;
         else
             counter = counter + 1;
+            %fprintf('Sigma_k norm: %f\n', norm(sigma_k));
+            %fprintf('a_star norm: %f\n', norm(a_star{1}));
             fprintf('Log likelihood at counter value %d is %f\n', counter, pData);
             oldPData = pData;
             old_a_star = a_star;

@@ -10,7 +10,7 @@ function [t_k, sigma_k, theta, sigma_m] = maximization(features_mat, a_star, the
     m = numel(uniq_files);   % number of files
     p = size(features_mat{1}, 2); % number of features per data point
     d = size(annotations_mat{1}, 2); % number of annotations per data point
-    W=8; 
+    W=32; 
     sigma_k = zeros(k, 1);
     sigma_m = zeros(m, 1);
     
