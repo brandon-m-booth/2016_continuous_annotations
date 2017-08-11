@@ -4,6 +4,7 @@
 \usepackage{amsmath, amssymb}
 \usepackage{graphicx}
 \usepackage{subcaption}
+\usepackage[font=small,format=plain,labelfont=bf,up,textfont=normal,up,justification=justified,singlelinecheck=false]{caption}
 
 % Matplotlib2TikZ
 \usepackage{pgfplots}
@@ -12,25 +13,35 @@
 \begin{document}
 \begin{minipage}{19.05cm}
     \begin{figure}
-    	\centering
-
-    	\begin{subfigure}{0.66\textwidth}
+        \centering
+    	\begin{subfigure}[t]{7.5cm}
         \input{images/Fig4a.tex}
-     	\vspace{-0.5cm}
-     	\caption{Plot of time-corrected annotation average and objective truth.}
+     	\vspace{-0.5em}
+     	\caption{Plot of \textit{Eval Dep} baseline and objective truth.}
     	\label{Fig:4a}
     	\end{subfigure}
     	~
-    	\begin{subfigure}{0.66\textwidth}
+    	\begin{subfigure}[t]{10.1cm}
         \input{images/Fig4b.tex}
-    	\vspace{-0.5cm}
-    	\caption{Plot of TV-denoised fused annotation with extracted constant intervals.}
+    	\vspace{-1.7em}
+    	\caption{Plot of \textit{Distort} baseline and objective truth.}
     	\label{Fig:4b}
     	\end{subfigure}
-
+    	\\
+    	\begin{subfigure}[t]{7.5cm}
+        \input{images/Fig4c.tex}
+     	\vspace{-0.5em}
+     	\caption{Plot of TV-denoised \textit{Eval Dep} baseline with\\extracted constant intervals.}
+    	\label{Fig:4c}
+    	\end{subfigure}
+    	~
+    	\begin{subfigure}[t]{10.1cm}
+        \input{images/Fig4d.tex}
+    	\vspace{-1.7em}
+    	\caption{Plot of TV-denoised \textit{Distort} baseline with\\extracted constant intervals.}
+    	\label{Fig:4d}
+    	\end{subfigure}
+    	
     \end{figure}
 \end{minipage}
 \end{document}
-
-
-
