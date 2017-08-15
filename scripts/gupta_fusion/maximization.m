@@ -10,7 +10,7 @@ function [t_k, sigma_k, theta, sigma_m] = maximization(features_mat, a_star, the
     m = numel(uniq_files);   % number of files
     p = size(features_mat{1}, 2); % number of features per data point
     d = size(annotations_mat{1}, 2); % number of annotations per data point
-    W=32; 
+    W = size(t_k, 1); 
     sigma_k = zeros(k, 1);
     sigma_m = zeros(m, 1);
     
@@ -51,7 +51,15 @@ function [t_k, sigma_k, theta, sigma_m] = maximization(features_mat, a_star, the
                     num_noise_terms = num_noise_terms + t;
                 end
             end
-            t_k(:, iter2, iter1) = lsqnonneg(t_k_X,t_k_y);
+            if false
+                t_k(:, iter2, iter1) = lsqnonneg(t_k_X,t_k_y);
+            else
+                %t_k(:, iter2, iter1) = t_k_X \ t_k_y;
+                options = optimoptions('lsqlin','Algorithm', 'active-set', 'Display', 'off');
+                %options = optimoptions('lsqlin','Algorithm','interior-point', 'Display', 'off');
+                t_k(:, iter2, iter1) = lsqlin(t_k_X, t_k_y, [], [], ones(1,W), 1, zeros(W, 1), ones(W, 1), [], options);
+                %t_k(:, iter2, iter1) = lsqlin(t_k_X, t_k_y, [], [], [], [], zeros(W, 1), Inf(W, 1), [], options);
+            end
         end
         if find_sigma_k
             sigma_k(iter1) = sqrt(sigma_k(iter1)/(num_noise_terms - 1));

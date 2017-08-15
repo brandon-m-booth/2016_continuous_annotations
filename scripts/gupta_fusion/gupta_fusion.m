@@ -22,6 +22,12 @@ function fusion = gupta_fusion(annotations, features_mat)
     % Features
     features_mat_cropped = features_mat{1}(1:N,:); % Need to only use one feature set too
     features_mat{1} = features_mat_cropped;
+    
+    % Add bias vector (ones) to features and N(0,1) normalize
+    for i=1:size(features_mat{1},2)
+        features_mat{1}(:,i) = (features_mat{1}(:,i)-mean(features_mat{1}(:,i)))/std(features_mat{1}(:,i));
+    end
+    features_mat{1}(:,size(features_mat{1},2)+1) = ones(N,1);
 
     save('data_matrix.mat', 'uniq_annotators', 'uniq_files', 'fileid_array', 'annotatorid_array', 'features_mat', 'annotations_mat');
 
