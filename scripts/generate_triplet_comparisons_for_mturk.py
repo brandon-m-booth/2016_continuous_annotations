@@ -36,6 +36,9 @@ def GenerateTripletsMechanicalTurk(source_video_path, constant_intervals_csv_pat
             data[row_idx] = [url_prefix, url_prefix, url_prefix, ref_start, ref_end, a_start, a_end, b_start, b_end]
             row_idx += 1
 
+   # Shuffle the rows
+   np.random.shuffle(data)
+
    num_batches = int(math.ceil(float(data.shape[0])/max_hits_per_batch))
    for i in range(num_batches):
       output_mturk_folder = os.path.dirname(output_mturk_path)
