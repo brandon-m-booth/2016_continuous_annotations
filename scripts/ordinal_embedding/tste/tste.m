@@ -1,4 +1,4 @@
-function X = tste(triplets, no_dims, lambda, alpha, use_log)
+function X = tste(triplets, no_dims, lambda, alpha, use_log, initial)
 %TSTE t-Distributed Stochastic Triplet Embedding
 %
 %   X = tste(triplets, no_dims, lambda, alpha, use_log)
@@ -16,7 +16,6 @@ function X = tste(triplets, no_dims, lambda, alpha, use_log)
 %
 % (C) Laurens van der Maaten, 2012
 % Delft University of Technology
-
 
     if ~exist('no_dims', 'var') || isempty(no_dims)
         no_dims = 2;
@@ -38,7 +37,11 @@ function X = tste(triplets, no_dims, lambda, alpha, use_log)
     no_triplets = size(triplets, 1);
     
     % Initialize some variables
-    X = randn(N, no_dims) .* .0001;
+    if nargin < 6
+       X = randn(N, no_dims) .* .0001;
+    else
+       X = initial; 
+    end
     C = Inf;
     tol = 1e-7;             % convergence tolerance    
     max_iter = 5000;        % maximum number of iterations
