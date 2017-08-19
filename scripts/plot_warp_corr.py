@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import pearsonr
 from PrettyPlotter import pretty
-from CsvFileIO import GetCsvData
+from FileIO import GetCsvData
 from matplotlib2tikz import save as tikz_save
 
 plot_tikz_tex_file = None

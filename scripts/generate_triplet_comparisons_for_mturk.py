@@ -6,7 +6,7 @@ import csv
 import pdb
 import math
 import numpy as np
-from CsvFileIO import GetCsvData, SaveCsvData
+from FileIO import GetCsvData, SaveCsvData
 
 max_hits_per_batch = 5000
 

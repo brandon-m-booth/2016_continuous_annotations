@@ -5,7 +5,7 @@ import pdb
 import glob
 import matplotlib.pyplot as plt
 import numpy as np
-from CsvFileIO import GetCsvData, SaveCsvData
+from FileIO import GetCsvData, SaveCsvData
 from PrettyPlotter import pretty
 from matplotlib2tikz import save as tikz_save
 

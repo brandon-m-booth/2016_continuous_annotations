@@ -1,6 +1,7 @@
 import csv
 import pdb
 import numpy as np
+import pandas as pd
 
 def IsNumeric(obj):
    if hasattr(obj, '__iter__'):
@@ -58,3 +59,30 @@ def SaveCsvData(file_path, header, data):
          csvwriter.writerow(header)
       for row in data:
          csvwriter.writerow(row)
+
+def GetArffData(file_path):
+   with open(file_path, 'rb') as arff_file:
+      lines = arff_file.readlines()
+      data = {}
+      feature_names = []
+      pass_data = False
+      for line in lines:
+         if not line.strip(): # If line contains whitespace
+            continue
+
+         if '@data' in line:
+            pass_data = True
+            for feat_name in feature_names:
+               data[feat_name] = []
+            continue
+
+         if not pass_data:
+            if line.startswith('@attribute'):
+               line = line.strip().split(' ')
+               feature_names.append(line[1])
+         else:
+            line = line.strip().split(',')
+            for i in range(len(line)):
+               data[feature_names[i]].append(line[i])
+
+   return pd.DataFrame(data, columns=feature_names)

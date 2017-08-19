@@ -8,7 +8,7 @@ import matplotlib as mpl
 mpl.use('TkAgg')
 import matplotlib.pyplot as plt
 from PrettyPlotter import pretty
-from CsvFileIO import GetCsvData
+from FileIO import GetCsvData
 from matplotlib2tikz import save as tikz_save
 
 plot_tikz_tex_file = None

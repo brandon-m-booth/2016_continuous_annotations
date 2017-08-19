@@ -7,7 +7,7 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 from PrettyPlotter import pretty
-from CsvFileIO import GetCsvData, SaveCsvData
+from FileIO import GetCsvData, SaveCsvData
 from matplotlib2tikz import save as tikz_save
 
 plot_tikz_tex_file = None
