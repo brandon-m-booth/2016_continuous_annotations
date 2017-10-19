@@ -2,7 +2,7 @@
 
 An overview of the methods in this codebase are presented in our paper:
 
-Booth B, Mundnich K, Narayanan S. Continuous real-time annotation fusion correction via rank-based spatial warping. PLOS One Journal [submitted]. 2017.
+Booth, Brandon M. and Mundnich, Karel and Narayanan, Shrikanth. A Novel Method for Human Bias Correction of Continuous-Time Annotations. ICASSP [submitted]. 2017.
 
 ## Quick Start
 
