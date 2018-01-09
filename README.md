@@ -2,7 +2,7 @@
 
 An overview of the methods in this codebase are presented in our paper:
 
-Booth, Brandon M. and Mundnich, Karel and Narayanan, Shrikanth. A Novel Method for Human Bias Correction of Continuous-Time Annotations. ICASSP [submitted]. 2017.
+Booth B, Mundnich K, Narayanan S. A novel method for fusion of continuous real-time annotations. PLOS One Journal [submitted]. 2017.
 
 ## Quick Start
 
@@ -21,7 +21,7 @@ This runs all of the steps explained in the paper and generates and caches all o
 
 ## Other Notes
 
-- The annotations were collected using a custom tool build on top of [ROS](http://www.ros.org).  The raw annotation data is stored in *.bag* files, but for convenience we have extracted and pre-processed the data.  For example, TaskA's bags are in the TaskA/AnnotationBags and the extracted time series data can be found in TaskA/AnnotationData.  The raw data is available along with the pre-processed (removed duplicate time stamps) and resampled (10hz or 30hz) data.
+- The annotations were collected using a custom tool build on top of [ROS](http://www.ros.org).  The raw annotation data is stored in *.bag* files, but for convenience we have extracted and pre-processed the data.  For example, TaskA's bags are in the annotation_tasks/TaskA/AnnotationBags and the extracted time series data can be found in annotation_tasks/TaskA/AnnotationData.  The raw data is available along with the pre-processed (removed duplicate time stamps) and resampled (10hz or 30hz) data.
 - Some of this code is clean and easy to read and reuse while other parts are hastily written for our own experimentation.  If you find this code useful and have questions please let us know! If you wish to borrow portions and find them difficult to reuse or read, please don't hesitate to file an "issue" on github for us to clean up.
 
 ## License
