@@ -9,26 +9,26 @@ from warp_signal import DoWarpSignal
 
 def GetOutputDir(task):
    scripts_path = os.path.dirname(os.path.realpath(__file__))
-   output_dir = os.path.join(scripts_path, '../'+task+'/AnnotationData/pipeline_results')
+   output_dir = os.path.join(scripts_path, '../annotation_tasks/'+task+'/AnnotationData/pipeline_results')
    return output_dir
 
 def GetGroundTruthFilePath(task, ground_truth_name, frequency):
    gt_file_name = ground_truth_name+'_ground_truth_'+str(frequency)+'hz.csv'
    scripts_path = os.path.dirname(os.path.realpath(__file__))
-   gt_file_path = os.path.join(scripts_path, '../'+task+'/AnnotationData/ground_truth_baselines/'+ground_truth_name, gt_file_name)
+   gt_file_path = os.path.join(scripts_path, '../annotation_tasks/'+task+'/AnnotationData/ground_truth_baselines/'+ground_truth_name, gt_file_name)
    return gt_file_path
 
 def GetObjectiveTruthFilePath(task, frequency):
    obj_file_name = task+'_normalized_'+str(frequency)+'hz.csv'
    scripts_path = os.path.dirname(os.path.realpath(__file__))
-   obj_file_path = os.path.join(scripts_path, '../'+task+'/AnnotationData/objective_truth/', obj_file_name)
+   obj_file_path = os.path.join(scripts_path, '../annotation_tasks/'+task+'/AnnotationData/objective_truth/', obj_file_name)
    return obj_file_path
 
 def RunPipeline(do_show_plots):
-   tasks = ['TaskA', 'TaskB']
+   tasks = ['TaskA', 'TaskB', 'TaskAvecArousalTrain1', 'TaskAvecArousalTrain2', 'TaskAvecArousalTrain3', 'TaskAvecArousalTrain4', 'TaskAvecArousalTrain5', 'TaskAvecArousalTrain6', 'TaskAvecArousalTrain7', 'TaskAvecArousalTrain8', 'TaskAvecArousalTrain9', 'TaskAvecArousalDev1', 'TaskAvecArousalDev2', 'TaskAvecArousalDev3', 'TaskAvecArousalDev4', 'TaskAvecArousalDev5', 'TaskAvecArousalDev6', 'TaskAvecArousalDev7', 'TaskAvecArousalDev8', 'TaskAvecArousalDev9', 'TaskAvecValenceTrain1', 'TaskAvecValenceTrain2', 'TaskAvecValenceTrain3', 'TaskAvecValenceTrain4', 'TaskAvecValenceTrain5', 'TaskAvecValenceTrain6', 'TaskAvecValenceTrain7', 'TaskAvecValenceTrain8', 'TaskAvecValenceTrain9', 'TaskAvecValenceDev1', 'TaskAvecValenceDev2', 'TaskAvecValenceDev3', 'TaskAvecValenceDev4', 'TaskAvecValenceDev5', 'TaskAvecValenceDev6', 'TaskAvecValenceDev7', 'TaskAvecValenceDev8', 'TaskAvecValenceDev9']
    ground_truth_names = ['simple_average', 'eval_dep', 'distort']
    constant_interval_param_list = [(0.003,17), (0.003,17), (0.003, 17)]
-   frequencies = [10]
+   frequencies = [10, 25]
 
    scripts_path = os.path.dirname(os.path.realpath(__file__))
    os.chdir(scripts_path)

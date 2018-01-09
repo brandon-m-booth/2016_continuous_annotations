@@ -10,7 +10,6 @@ function [C, dC] = tste_grad(x, N, no_dims, triplets, lambda, alpha, use_log)
 % (C) Laurens van der Maaten, 2012
 % Delft University of Technology
 
-
     % Decode current solution
     X = reshape(x, [N no_dims]);
     
@@ -19,14 +18,20 @@ function [C, dC] = tste_grad(x, N, no_dims, triplets, lambda, alpha, use_log)
     base_K = 1 + bsxfun(@plus, sum_X, bsxfun(@plus, sum_X', -2 * (X * X'))) ./ alpha;
     K = base_K .^ ((alpha + 1) ./ -2);
     
+    % Generate regularization function
+    %regfun = @(x) dot(x,x);
+    %gradregfun= @(x) 2*x;
+    regfun = @(x) sum(max(abs(x)-1,0));
+    gradregfun = @(x) min(floor(abs(x)),1);
+    
     % Compute value of cost function
     P = K(sub2ind([N N], triplets(:,1), triplets(:,2))) ./ ...
        (K(sub2ind([N N], triplets(:,1), triplets(:,2))) +  ...
         K(sub2ind([N N], triplets(:,1), triplets(:,3))));
     if use_log
-        C = -sum(log(max(P(:), realmin))) + lambda .* sum(x .^ 2);
+        C = -sum(log(max(P(:), realmin))) + lambda * regfun(x);
     else
-        C = -sum(P(:)) + lambda .* sum(x .^ 2);
+        C = -sum(P(:)) + lambda * regfun(x);
     end
     
     % Compute gradient if requested
@@ -51,6 +56,6 @@ function [C, dC] = tste_grad(x, N, no_dims, triplets, lambda, alpha, use_log)
                                       P .* (1 - P) .* base_K(sub2ind([N N], triplets(:,1), triplets(:,3))) .* (X(triplets(:,1), i) - X(triplets(:,3), i))], [N 1]);
             end
         end
-        dC = -dC(:) + 2 .* lambda .* x;
+        dC = -dC(:) + lambda * gradregfun(x);
     end
     

@@ -128,7 +128,7 @@ def DoWarpSignal(signal_csv, intervals_csv, interval_values_glob, objective_csv,
          
          pretty(plt)
 
-         plt.axis([times[0],times[-1],0,1])
+         plt.axis([times[0],times[-1],-1.5,1.5])
          legend_list = ['Objective Truth', 'Average Signal', 'Embedded Intervals', 'Warped Signal']
          plt.legend(legend_list, loc='upper left', bbox_to_anchor=(1,1), frameon=False, prop={'size':24})
          if plot_tikz_tex_file is not None:

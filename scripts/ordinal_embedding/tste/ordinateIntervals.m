@@ -14,6 +14,10 @@ function ordinateIntervals(output_file_path, approximate_signal_csv, truth_signa
 
     addpath(strcat(mfilename('fullpath'), 'tste'));
 
+    if ~exist(approximate_signal_csv, 'file') || ~exist(truth_signal_csv, 'file') || ~exist(intervals_csv, 'file')
+      return
+    end
+
     %% Load data
     signal = csvread(approximate_signal_csv, 1, 1);
     obj_truth = csvread(truth_signal_csv, 1, 1);

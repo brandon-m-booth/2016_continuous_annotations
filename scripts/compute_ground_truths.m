@@ -1,5 +1,9 @@
 function ground_truth = compute_ground_truths(task_name, ground_truth_name, frequency)
+    ground_truth = [];
+    
 	[annotations, label_sequences] = import_annotations(task_name, frequency);
+    if isempty(annotations)
+        return; 
 
     if strcmp(ground_truth_name, 'simple_average')
         ground_truth = mean(annotations,1);

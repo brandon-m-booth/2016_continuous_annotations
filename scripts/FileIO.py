@@ -20,9 +20,9 @@ def IsNumeric(obj):
          ret_val = False
    return ret_val
 
-def GetCsvData(file_path, first_line_header=True):
+def GetCsvData(file_path, first_line_header=True, delimiter=','):
    with open(file_path, 'rb') as csvfile:
-      csvreader = csv.reader(csvfile, delimiter=',')
+      csvreader = csv.reader(csvfile, delimiter=delimiter)
       # Get row and column counts and data type
       row_count = sum(1 for row in csvreader)
       csvfile.seek(0) # Reset file iterator
@@ -52,9 +52,9 @@ def GetCsvData(file_path, first_line_header=True):
                
    return (header, data)
 
-def SaveCsvData(file_path, header, data):
+def SaveCsvData(file_path, header, data, delimiter=','):
    with open(file_path, 'wb') as csvfile:
-      csvwriter = csv.writer(csvfile, delimiter=',')
+      csvwriter = csv.writer(csvfile, delimiter=delimiter)
       if header is not None:
          csvwriter.writerow(header)
       for row in data:

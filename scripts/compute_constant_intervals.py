@@ -15,7 +15,11 @@ plot_tikz_tex_file = None
 
 def ComputeConstantIntervals(signal_csv, output_constant_csv, max_height_threshold=0.003, min_const_frames=18, do_show_plot=True):
    # Data format checking
-   csv_header, csv_data = GetCsvData(signal_csv)
+   try:
+      csv_header, csv_data = GetCsvData(signal_csv)
+   except IOError:
+      return
+
    if csv_data.ndim == 1:
       times = range(len(signal))
       signal = csv_data.flatten()
@@ -44,6 +48,9 @@ def ComputeConstantIntervals(signal_csv, output_constant_csv, max_height_thresho
                else:
                   constant_intervals = np.vstack((constant_intervals, [left_edge_idx, sig_idx-1]))
             left_edge_idx = None
+
+   if constant_intervals is None:
+      constant_intervals = np.array([[0, len(signal)-1]])
 
    # Because each constant interval was found scanning through the signal in the
    # forward direction, the interval may not yield the shallowest slope for the function.
