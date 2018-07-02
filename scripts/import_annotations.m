@@ -24,7 +24,7 @@ function [annotations, label_sequences] = import_annotations(task_name, frequenc
                 csv_data = read_csv_file(fullfile(annotation_file_path,file_name), ',');
                 csv_data = cast_to_best_data_type(csv_data(2:end,2:end)); % Discard the header and time column
 
-                if ~exist('annotations', 'var')
+                if ~exist('annotations', 'var') || isempty(annotations)
                     annotations = csv_data';
                 else
                     % Make sure all annotations are the same length.
