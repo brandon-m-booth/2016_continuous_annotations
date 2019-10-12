@@ -13,7 +13,7 @@ from matplotlib2tikz import save as tikz_save
 plot_tikz_tex_file = None
 #plot_tikz_tex_file = './test.tex'
 
-def ComputeConstantIntervals(signal_csv, output_constant_csv, max_height_threshold=0.003, min_const_frames=18, do_show_plot=True):
+def ComputeConstantIntervals(signal_csv, output_constant_csv, max_height_threshold=0.003, min_const_time_sec=0.6, do_show_plot=True):
    # Data format checking
    try:
       csv_header, csv_data = GetCsvData(signal_csv)
@@ -42,7 +42,7 @@ def ComputeConstantIntervals(signal_csv, output_constant_csv, max_height_thresho
          if height < max_height_threshold:
             continue
          else:
-            if (sig_idx-left_edge_idx) >= min_const_frames:
+            if (sig_idx - left_edge_idx) > 1 and (times[sig_idx]-times[left_edge_idx]) >= min_const_time_sec:
                if constant_intervals is None:
                   constant_intervals = np.array([left_edge_idx, sig_idx-1])
                else:
@@ -51,6 +51,8 @@ def ComputeConstantIntervals(signal_csv, output_constant_csv, max_height_thresho
 
    if constant_intervals is None:
       constant_intervals = np.array([[0, len(signal)-1]])
+   elif len(constant_intervals.shape) == 1:
+      constant_intervals = constant_intervals.reshape(1,-1)
 
    # Because each constant interval was found scanning through the signal in the
    # forward direction, the interval may not yield the shallowest slope for the function.
@@ -82,7 +84,7 @@ def ComputeConstantIntervals(signal_csv, output_constant_csv, max_height_thresho
          do_shrink = False # Exit if we fail to shrink successfully
 
          # Prevent intervals from shrinking too much
-         if (right_idx - left_idx) < min_const_frames:
+         if (right_idx - left_idx < 2) or(times[right_idx] - times[left_idx]) < min_const_time_sec:
             break
 
          abs_slope = math.fabs((signal[right_idx]-signal[left_idx])/(right_idx-left_idx))
@@ -130,9 +132,15 @@ def ComputeConstantIntervals(signal_csv, output_constant_csv, max_height_thresho
 
 
 if __name__=='__main__':
+   do_show_plot = False
    if len(sys.argv) > 2:
       signal_csv = sys.argv[1]
       output_constant_csv = sys.argv[2]
-      ComputeConstantIntervals(signal_csv, output_constant_csv)
+      if len(sys.argv) > 3 and sys.argv[3] == 'strict':
+         max_height_threshold = 0.00001
+         min_const_time_sec = 0.2
+         ComputeConstantIntervals(signal_csv, output_constant_csv, min_const_time_sec=min_const_time_sec, max_height_threshold=max_height_threshold, do_show_plot=do_show_plot)
+      else:
+         ComputeConstantIntervals(signal_csv, output_constant_csv, do_show_plot=do_show_plot)
    else:
-      print 'Please provide the following command line arguments:\n1) Path to signal csv file\n2) Output constant intervals csv file'
+      print 'Please provide the following command line arguments:\n1) Path to signal csv file\n2) Output constant intervals csv file\n3) (OPTIONAL) Strictness level: "strict", "default"'
