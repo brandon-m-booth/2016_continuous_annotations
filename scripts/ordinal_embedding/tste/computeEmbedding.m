@@ -18,7 +18,7 @@ function [embedding] = computeEmbedding(triplets, comparison_retain_percentage, 
     %% t-STE embedding
     d = 1;
     lambda = 0.0;
-    alpha = 1.0;
+    alpha = 10000000.0;
     use_log = true;
     if ~exist('initial_condition', 'var')
         embedding = tste(triplets, d, lambda, alpha, use_log);    

@@ -85,7 +85,8 @@ def DoWarpSignal(signal_csv, intervals_csv, interval_values_glob, objective_csv,
                bias = 0
             scale = warped_signal[end_frame]+interval_shift - (warped_signal[current_frame]+bias)
             if end_frame > current_frame:
-               warped_signal[current_frame:end_frame+1] = (warped_signal[current_frame:end_frame+1] - warped_signal[current_frame])/(warped_signal[end_frame]-warped_signal[current_frame])*scale + warped_signal[current_frame]+bias
+               if np.abs(warped_signal[end_frame]-warped_signal[current_frame]) > 1e-8:
+                  warped_signal[current_frame:end_frame+1] = (warped_signal[current_frame:end_frame+1] - warped_signal[current_frame])/(warped_signal[end_frame]-warped_signal[current_frame])*scale + warped_signal[current_frame]+bias
             else:
                warped_signal[current_frame:end_frame+1] = warped_signal[current_frame]+(bias+interval_shift)/2.0
             #for frame_idx in range(current_frame, end_frame+1):
@@ -128,7 +129,8 @@ def DoWarpSignal(signal_csv, intervals_csv, interval_values_glob, objective_csv,
          
          pretty(plt)
 
-         plt.axis([times[0],times[-1],-1.5,1.5])
+         #plt.axis([times[0],times[-1],-1.5,1.5])
+         plt.axis([times[0],times[-1],-0.1,1.1])
          legend_list = ['Objective Truth', 'Average Signal', 'Embedded Intervals', 'Warped Signal']
          plt.legend(legend_list, loc='upper left', bbox_to_anchor=(1,1), frameon=False, prop={'size':24})
          if plot_tikz_tex_file is not None:
@@ -144,12 +146,13 @@ def DoWarpSignal(signal_csv, intervals_csv, interval_values_glob, objective_csv,
       SaveCsvData(outfile, ['Time_sec','Data'], warped_signal)
 
 if __name__=='__main__':
+   do_show_plot=False
    if len(sys.argv) > 5:
       signal_csv = sys.argv[1]
       intervals_csv = sys.argv[2]
       interval_values_csv = sys.argv[3]
       objective_csv = sys.argv[4]
       output_file = sys.argv[5]
-      DoWarpSignal(signal_csv, intervals_csv, interval_values_csv, objective_csv, output_file)
+      DoWarpSignal(signal_csv, intervals_csv, interval_values_csv, objective_csv, output_file, do_show_plot=do_show_plot)
    else:
       print 'Please provide the following arguments:\n1) Path to csv containing signal data\n2) Path to csv containing interval pairs (Nx2 matrix with [left_idx, right_idx] rows)\n3) Path to csv containing new mean values for each interval\n4) Path to csv containing the objective truth signal\n5) Output file'

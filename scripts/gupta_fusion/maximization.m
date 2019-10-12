@@ -55,8 +55,8 @@ function [t_k, sigma_k, theta, sigma_m] = maximization(features_mat, a_star, the
                 t_k(:, iter2, iter1) = lsqnonneg(t_k_X,t_k_y);
             else
                 %t_k(:, iter2, iter1) = t_k_X \ t_k_y;
-                options = optimoptions('lsqlin','Algorithm', 'active-set', 'Display', 'off');
-                %options = optimoptions('lsqlin','Algorithm','interior-point', 'Display', 'off');
+                %options = optimoptions('lsqlin','Algorithm', 'active-set', 'Display', 'off');
+                options = optimoptions('lsqlin','Algorithm','interior-point', 'Display', 'off');
                 t_k(:, iter2, iter1) = lsqlin(t_k_X, t_k_y, [], [], ones(1,W), 1, zeros(W, 1), ones(W, 1), [], options);
                 %t_k(:, iter2, iter1) = lsqlin(t_k_X, t_k_y, [], [], [], [], zeros(W, 1), Inf(W, 1), [], options);
             end

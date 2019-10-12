@@ -12,7 +12,7 @@ function ordinateIntervals(output_file_path, approximate_signal_csv, truth_signa
         correctness_rate = 1.0;
     end
 
-    addpath(strcat(mfilename('fullpath'), 'tste'));
+    %addpath(strcat(mfilename('fullpath'), 'tste'));
 
     if ~exist(approximate_signal_csv, 'file') || ~exist(truth_signal_csv, 'file') || ~exist(intervals_csv, 'file')
       return
@@ -50,10 +50,10 @@ function ordinateIntervals(output_file_path, approximate_signal_csv, truth_signa
                 diff_ik = norm(obj_mean(i)-obj_mean(k));
                 if abs(diff_ik - diff_ij) < diff_eps
                     % If similar, add one triplet for both cases
-                    %triplets(triplet_idx,:) = [i,k,j];
-                    %triplet_idx = triplet_idx + 1;
-                    %triplets(triplet_idx,:) = [i,j,k];
-                    %triplet_idx = triplet_idx + 1;
+                    triplets(triplet_idx,:) = [i,k,j];
+                    triplet_idx = triplet_idx + 1;
+                    triplets(triplet_idx,:) = [i,j,k];
+                    triplet_idx = triplet_idx + 1;
                     %if i == 20
                     %   triplets(triplet_idx,:) = [i,j,k];
                     %   triplet_idx = triplet_idx + 1;
